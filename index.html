@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Tushar] | 3D Artist & Game Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #101820;
+      color: #f1f1f1;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: linear-gradient(90deg, #1a1a1a 60%, #00ffe1 100%);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 16px 0 rgba(0,255,225,0.08);
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      color: #00ffe1;
+      letter-spacing: 2px;
+      font-size: 2.2rem;
+      text-shadow: 0 2px 8px #00ffe1aa;
+    }
+
+    nav a {
+      color: #f1f1f1;
+      margin-left: 28px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: color 0.3s, border-bottom 0.3s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+
+    nav a:hover {
+      color: #00ffe1;
+      border-bottom: 2px solid #00ffe1;
+    }
+
+    .section {
+      padding: 60px 20px 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+      animation: fadeIn 1s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: none;}
+    }
+
+    .section h2 {
+      color: #00ffe1;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px #00ffe144;
+    }
+
+    .projects, .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #232946 80%, #00ffe1 120%);
+      border-radius: 18px;
+      padding: 18px 18px 20px 18px;
+      box-shadow: 0 4px 24px 0 rgba(0,255,225,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 8px 32px 0 #00ffe1aa;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 220px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 12px #00ffe133;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .card h3 {
+      margin-top: 10px;
+      margin-bottom: 6px;
+      font-size: 1.25rem;
+      color: #00ffe1;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px #00ffe144;
+    }
+
+    .card p {
+      margin: 0 0 10px 0;
+      color: #e0e0e0;
+      font-size: 1.05rem;
+      min-height: 48px;
+    }
+
+    .about, .contact {
+      text-align: center;
+    }
+
+    .about p, .contact p {
+      font-size: 1.1rem;
+      color: #e0e0e0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      background: linear-gradient(90deg, #1a1a1a 60%, #00ffe1 100%);
+      margin-top: 40px;
+      color: #aaa;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    a.button {
+      display: inline-block;
+      margin-top: 12px;
+      background: linear-gradient(90deg, #00ffe1 60%, #00bfae 100%);
+      color: #101820;
+      padding: 12px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.08rem;
+      box-shadow: 0 2px 8px #00ffe144;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    a.button:hover {
+      background: linear-gradient(90deg, #00bfae 60%, #00ffe1 100%);
+      color: #fff;
+      transform: scale(1.04);
+    }
+
+    video {
+      background: #181f2a;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px #00ffe133;
+    }
+
+    @media (max-width: 700px) {
+      .section {
+        padding: 32px 6px 24px 6px;
+      }
+      .projects, .games {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+      .swiper {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Design. Develop. Play.</h1>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#games">Games</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="projects" class="section">
+    <h2>3D Modeling & Animation Projects</h2>
+    <div class="projects">
+      <!-- Cards with multiple images first -->
+      <div class="card">
+        <div class="swiper projectSwiper1">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/chandrayaan1.jpeg" alt="Chandrayaan Explorer 1"></div>
+            <div class="swiper-slide"><img src="blender/B_images/chandrayaan2.jpeg" alt="Chandrayaan Explorer 2"></div>
+          </div>
+        </div>
+          <h3>Chandrayaan Lander</h3>
+          <p>A 3D model of the Chandrayaan-3 lander, featuring detailed parts and realistic textures inspired by India’s lunar mission.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <div class="card">
+        <div class="swiper projectSwiper2">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/horror1.jpeg" alt="Haunted Hospital 1"></div>
+            <div class="swiper-slide"><img src="blender/B_images/horror2.jpeg" alt="Haunted Hospital 2"></div>
+            <div class="swiper-slide"><img src="blender/B_images/horror3.jpeg" alt="Haunted Hospital 3"></div>
+            <div class="swiper-slide"><img src="blender/B_images/horror4.jpeg" alt="Haunted Hospital 4"></div>
+            <div class="swiper-slide"><img src="blender/B_images/horror5.jpeg" alt="Haunted Hospital 5"></div>
+            <div class="swiper-slide"><img src="blender/B_images/horror6.jpeg" alt="Haunted Hospital 6"></div>
+          </div>
+        </div>
+          <h3>Haunted Hospital</h3>
+          <p>A dark, eerie hospital with horror-themed lighting and creepy props, perfect for unsettling game and animation scenes.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <div class="card">
+        <div class="swiper projectSwiper3">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/spaceship1.jpeg" alt="Nebula Starship 1"></div>
+            <div class="swiper-slide"><img src="blender/B_images/spaceship2.jpeg" alt="Nebula Starship 2"></div>
+            <div class="swiper-slide"><img src="blender/B_images/spaceship3.jpeg" alt="Nebula Starship 3"></div>
+            <div class="swiper-slide"><img src="blender/B_images/spaceship4.jpeg" alt="Nebula Starship 4"></div>
+          </div>
+        </div>
+        <h3>Nebula Starship</h3>
+        <p>A futuristic spaceship model with glowing engines and sci-fi details, perfect for space adventure scenes.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <div class="card">
+        <div class="swiper projectSwiper4">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/car1.jpeg" alt="Cyber Racer 1"></div>
+            <div class="swiper-slide"><img src="blender/B_images/car2.jpeg" alt="Cyber Racer 2"></div>
+          </div>
+        </div>
+        <h3>Toon Racer</h3>
+        <p>A cartoonish, exaggerated car design with bold colors and fun proportions, ideal for stylized racing games or animated scenes.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <!-- Cards with single images next -->
+      <div class="card">
+        <div class="swiper projectSwiper5">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/desert.jpeg" alt="Desert Monolith"></div>
+          </div>
+        </div>
+        <h3>Desert Monolith</h3>
+        <p>A mysterious rock formation set in a sun-baked desert, ideal for environment backgrounds and scenes.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <div class="card">
+        <div class="swiper projectSwiper6">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/Witch.jpeg" alt="Wicked Witch"></div>
+          </div>
+        </div>
+        <h3>Wicked Witch</h3>
+        <p>A stylized Halloween witch character, perfect for spooky animations or seasonal projects.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <div class="card">
+        <div class="swiper projectSwiper7">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/halloween.jpeg" alt="Pumpkin Night"></div>
+          </div>
+        </div>
+        <h3>Pumpkin Night</h3>
+        <p>A festive Halloween pumpkin scene with glowing lights and horror vibes.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <div class="card">
+        <div class="swiper projectSwiper8">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="blender/B_images/clock.jpeg" alt="Retro Clock"></div>
+          </div>
+        </div>
+        <h3>Retro Clock</h3>
+        <p>A vintage-style clock model, great for interior renders and time-themed projects.</p>
+        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+      </div>
+
+      <!-- Animation/video cards (no thumbnail option) -->
+      <div class="card">
+        <video controls src="blender/B_videos/Plane animation.mp4" style="width:100%; border-radius:10px;"></video>
+        <h3>Toy Plane Adventure</h3>
+        <p>A red metallic biplane performing thrilling flying stunts mid-air. The animation showcases rigging and aerial maneuvers</p>
+      </div>
+
+      <div class="card">
+        <video controls src="blender/B_videos/perfume aniamtion.mp4" style="width:100%; border-radius:10px;"></video>
+        <h3>Perfume Dream</h3>
+        <p>A short animation highlighting a perfume bottle with elegant lighting and fluid motion.</p>
+      </div>
+      <!-- ...existing code... -->
+    </div>
+  </section>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    // Initialize all Swipers for each project
+    new Swiper('.projectSwiper1', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+    new Swiper('.projectSwiper2', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+    new Swiper('.projectSwiper3', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+    new Swiper('.projectSwiper4', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+    new Swiper('.projectSwiper5', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+    new Swiper('.projectSwiper6', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+    new Swiper('.projectSwiper7', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+    new Swiper('.projectSwiper8', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
+  </script>
+
+  <section id="games" class="section">
+    <h2>Game Projects</h2>
+    <div class="games">
+      <div class="card">
+        <video controls src="Unity/DeathNightZombie.mp4 "style="width:100%; border-radius:10px;"></video>
+        <h3>Sharp Shooter</h3>
+        <p>A first-person zombie shooter game developed in Unity, featuring intelligent enemy AI using NavMesh for realistic pathfinding. Players engage in fast-paced combat, and survive waves of zombies in a post-apocalyptic environment. Includes raycasting mechanics, health management, and immersive gameplay design.</p>
+        <a class="button" href="https://github.com/yourusername/sharp-shooter" target="_blank">View on GitHub</a>
+      </div>
+
+      <div class="card">
+        <video controls src="Unity/SnowmanRunner.mp4"style="width:100%; border-radius:10px;"></video>
+        <h3>Snowman Runner</h3>
+        <p>Endless runner game where a snowman dodges obstacles, changes size with power-ups, and manages health while navigating dynamic challenges. Includes interactive quiz gates—choose the right answer (like picking "Football" over "Tennis") to stay on track and boost performance.</p>
+        <a class="button" href="https://github.com/yourusername/sharp-shooter" target="_blank">View on GitHub</a>
+      </div>
+      <!-- Add more game cards as needed -->
+    </div>
+  </section>
+
+  <section id="about" class="section about">
+    <h2>About Me</h2>
+    <p>A passionate creator exploring 3D modeling, game development, machine learning, and emerging technologies.</p>
+    <p>Tools I use: Blender, Unity, C#, Python and more.</p>
+    <a class="button" href="assets/CV_Tushar.pdf" download>Download CV</a>
+  </section>
+
+  <section id="contact" class="section contact">
+    <h2>Contact</h2>
+    <p>Email: tushar2005sbm@gmail.com</p>
+    <p>GitHub: <a href="https://github.com/Code-buddddY" target="_blank">@Code-buddddY</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Tushar. All rights reserved.
+  </footer>
+
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    new Swiper('.chandrayaanSwiper', {
+      loop: true,
+      autoplay: { delay: 3000 },
+      pagination: { el: '.swiper-pagination', clickable: true },
+    });
+  </script>
+</body>
+
+</html>
