@@ -178,6 +178,23 @@
       border-radius: 12px;
       box-shadow: 0 2px 12px #00ffe133;
     }
+    .video-container {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: #000; /* black bars if needed */
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* ensures no cropping */
+      border-radius: 10px;
+    }
 
     @media (max-width: 700px) {
       .section {
@@ -351,6 +368,16 @@
         <h3>Snowman Runner</h3>
         <p>Endless runner game where a snowman dodges obstacles, changes size with power-ups, and manages health while navigating dynamic challenges. Includes interactive quiz gates—choose the right answer (like picking "Football" over "Tennis") to stay on track and boost performance.</p>
         <a class="button" href="https://github.com/yourusername/sharp-shooter" target="_blank">View on GitHub</a>
+      </div>
+
+      <div class="card">
+        <div class="video-container">
+          <video controls src="Unity/ARplanets.mp4"></video>
+        </div>
+        <h3>AR Planets</h3>
+        <p>An educational AR experience that showcases the solar system using augmented reality. Users can explore planets in 3D with an intuitive UI that supports smooth interaction, rotation for a more engaging learning experience.</p>
+        <br>
+        <a class="button" href="https://github.com/yourusername/ar-planets" target="_blank">View on GitHub</a>
       </div>
       <!-- Add more game cards as needed -->
     </div>
