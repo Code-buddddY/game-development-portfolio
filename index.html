@@ -4,430 +4,1064 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[Tushar] | 3D Artist & Game Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+  <title>Tushar | 3D Artist & Game Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Open Sans', sans-serif;
-      background-color: #101820;
-      color: #f1f1f1;
-      min-height: 100vh;
-      scroll-behavior: smooth;
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --accent: #06b6d4;
+      --accent-glow: #0891b2;
+      --bg-dark: #0f0f23;
+      --bg-card: #1a1a2e;
+      --bg-card-hover: #16213e;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+      --glow: rgba(99, 102, 241, 0.15);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --shadow-xl: 0 35px 70px -12px rgba(0, 0, 0, 0.35);
     }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
+      z-index: -1;
+      animation: backgroundFlow 20s ease-in-out infinite;
+    }
+
+    @keyframes backgroundFlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Header */
     header {
-      background: linear-gradient(90deg, #1a1a1a 60%, #00ffe1 100%);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15, 15, 35, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
       padding: 1rem 2rem;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 16px 0 rgba(0,255,225,0.08);
     }
 
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      margin: 0;
-      color: #00ffe1;
-      letter-spacing: 2px;
-      font-size: 2.2rem;
-      text-shadow: 0 2px 8px #00ffe1aa;
+    .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
     }
 
     nav a {
-      color: #f1f1f1;
-      margin-left: 28px;
+      color: var(--text-secondary);
       text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      transition: color 0.3s, border-bottom 0.3s;
-      border-bottom: 2px solid transparent;
-      padding-bottom: 2px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
     }
 
     nav a:hover {
-      color: #00ffe1;
-      border-bottom: 2px solid #00ffe1;
+      color: var(--text-primary);
+      background: rgba(99, 102, 241, 0.1);
     }
 
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    nav a:hover::after {
+      width: 80%;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 2rem;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .hero .tagline {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Section Styles */
     .section {
-      padding: 60px 20px 40px 20px;
-      max-width: 1200px;
-      margin: auto;
-      animation: fadeIn 1s;
+      padding: 8rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px);}
-      to { opacity: 1; transform: none;}
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
     }
 
-    .section h2 {
-      color: #00ffe1;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      margin-bottom: 18px;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 8px #00ffe144;
+    .section-title {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .projects, .games {
+    .section-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Grid Layouts */
+    .projects-grid, .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 36px;
-      margin-top: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
     }
 
+    /* Enhanced Cards */
     .card {
-      background: linear-gradient(135deg, #232946 80%, #00ffe1 120%);
-      border-radius: 18px;
-      padding: 18px 18px 20px 18px;
-      box-shadow: 0 4px 24px 0 rgba(0,255,225,0.10);
-      transition: transform 0.2s, box-shadow 0.2s;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      min-height: 540px; /* Set a consistent min-height for all cards */
+      height: 100%;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .card:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 8px 32px 0 #00ffe1aa;
+      transform: translateY(-8px);
+      background: var(--bg-card-hover);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-xl), 0 0 40px var(--glow);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    /* Media Containers */
+    .media-container {
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      position: relative;
+      background: #000;
+      height: 240px; /* Fixed height for uniformity */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .swiper {
+      border-radius: 1rem;
+      height: 100%; /* Fill the media-container */
+      min-height: 100%;
       width: 100%;
-      height: 220px;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 12px #00ffe133;
     }
 
     .swiper-slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 12px;
+      display: block;
+    }
+
+    .video-container {
+      aspect-ratio: unset;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      border-radius: 1rem;
+      overflow: hidden;
+      background: #000;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-container video,
+    video.video-container {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1rem;
+      display: block;
+    }
+
+    /* Card Content */
+    .card-content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
 
     .card h3 {
-      margin-top: 10px;
-      margin-bottom: 6px;
-      font-size: 1.25rem;
-      color: #00ffe1;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 8px #00ffe144;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
     }
 
     .card p {
-      margin: 0 0 10px 0;
-      color: #e0e0e0;
-      font-size: 1.05rem;
-      min-height: 48px;
-    }
-
-    .about, .contact {
-      text-align: center;
-    }
-
-    .about p, .contact p {
-      font-size: 1.1rem;
-      color: #e0e0e0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 22px;
-      background: linear-gradient(90deg, #1a1a1a 60%, #00ffe1 100%);
-      margin-top: 40px;
-      color: #aaa;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
       font-size: 1rem;
-      letter-spacing: 1px;
+      line-height: 1.6;
+      min-height: 56px; /* Ensures space for 2-3 lines, adjust as needed */
+      /* This helps align buttons even if text is short */
     }
 
-    a.button {
-      display: inline-block;
-      margin-top: 12px;
-      background: linear-gradient(90deg, #00ffe1 60%, #00bfae 100%);
-      color: #101820;
-      padding: 12px 28px;
-      border-radius: 10px;
+    /* Align button to bottom of card */
+    .card-content .btn {
+      margin-top: auto;
+    }
+
+    /* Tech Stack Tags */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    /* Enhanced Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.75rem;
       text-decoration: none;
-      font-weight: bold;
-      font-size: 1.08rem;
-      box-shadow: 0 2px 8px #00ffe144;
-      transition: background 0.2s, color 0.2s, transform 0.2s;
+      font-weight: 600;
+      font-size: 0.975rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
       border: none;
       cursor: pointer;
     }
-    a.button:hover {
-      background: linear-gradient(90deg, #00bfae 60%, #00ffe1 100%);
-      color: #fff;
-      transform: scale(1.04);
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
     }
 
-    video {
-      background: #181f2a;
-      margin-bottom: 10px;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px #00ffe133;
-    }
-    .video-container {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background-color: #000; /* black bars if needed */
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
     }
 
-    .video-container video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* ensures no cropping */
-      border-radius: 10px;
+    .btn-secondary {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
-    @media (max-width: 700px) {
+    .btn-secondary:hover {
+      background: rgba(99, 102, 241, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* About Section */
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-text {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Contact Section */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 6rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      color: var(--text-muted);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 1rem;
+      }
+      
+      nav {
+        gap: 1rem;
+      }
+      
       .section {
-        padding: 32px 6px 24px 6px;
+        padding: 4rem 1rem;
       }
-      .projects, .games {
+      
+      .projects-grid, .games-grid {
         grid-template-columns: 1fr;
-        gap: 22px;
+        gap: 1.5rem;
       }
-      .swiper {
+      
+      .card {
+        padding: 1.25rem;
+        min-height: 420px; /* Slightly smaller min-height for mobile */
+      }
+      
+      .media-container {
         height: 180px;
       }
+      
+      .swiper {
+        height: 100%;
+        min-height: 100%;
+      }
+      
+      .video-container {
+        height: 100%;
+        min-height: 100%;
+      }
+    }
+
+    /* Swiper Customization */
+    .swiper-pagination-bullet {
+      background: var(--primary);
+      opacity: 0.5;
+    }
+
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+      background: var(--primary);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(99, 102, 241, 0.1);
+      z-index: 9999;
+    }
+
+    .scroll-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%;
+      transition: width 0.1s ease;
     }
   </style>
 </head>
 
 <body>
+  <div class="scroll-indicator">
+    <div class="scroll-progress"></div>
+  </div>
+
   <header>
-    <h1>Design. Develop. Play.</h1>
-    <nav>
-      <a href="#projects">Projects</a>
-      <a href="#games">Games</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="header-content">
+      <div class="logo">Tushar.dev</div>
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#games">Games</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <section id="projects" class="section">
-    <h2>3D Modeling & Animation Projects</h2>
-    <div class="projects">
-      <!-- Cards with multiple images first -->
-      <div class="card">
-        <div class="swiper projectSwiper1">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/chandrayaan1.jpeg" alt="Chandrayaan Explorer 1"></div>
-            <div class="swiper-slide"><img src="blender/B_images/chandrayaan2.jpeg" alt="Chandrayaan Explorer 2"></div>
-          </div>
-        </div>
-          <h3>Chandrayaan Lander</h3>
-          <p>A 3D model of the Chandrayaan-3 lander, featuring detailed parts and realistic textures inspired by India’s lunar mission.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Design. Develop. Play.</h1>
+      <p class="subtitle">3D Artist & Game Developer</p>
+      <p class="tagline">Creating immersive experiences through cutting-edge 3D modeling, game development, and interactive storytelling.</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
       </div>
-
-      <div class="card">
-        <div class="swiper projectSwiper2">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/horror1.jpeg" alt="Haunted Hospital 1"></div>
-            <div class="swiper-slide"><img src="blender/B_images/horror2.jpeg" alt="Haunted Hospital 2"></div>
-            <div class="swiper-slide"><img src="blender/B_images/horror3.jpeg" alt="Haunted Hospital 3"></div>
-            <div class="swiper-slide"><img src="blender/B_images/horror4.jpeg" alt="Haunted Hospital 4"></div>
-            <div class="swiper-slide"><img src="blender/B_images/horror5.jpeg" alt="Haunted Hospital 5"></div>
-            <div class="swiper-slide"><img src="blender/B_images/horror6.jpeg" alt="Haunted Hospital 6"></div>
-          </div>
-        </div>
-          <h3>Haunted Hospital</h3>
-          <p>A dark, eerie hospital with horror-themed lighting and creepy props, perfect for unsettling game and animation scenes.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-      </div>
-
-      <div class="card">
-        <div class="swiper projectSwiper3">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/spaceship1.jpeg" alt="Nebula Starship 1"></div>
-            <div class="swiper-slide"><img src="blender/B_images/spaceship2.jpeg" alt="Nebula Starship 2"></div>
-            <div class="swiper-slide"><img src="blender/B_images/spaceship3.jpeg" alt="Nebula Starship 3"></div>
-            <div class="swiper-slide"><img src="blender/B_images/spaceship4.jpeg" alt="Nebula Starship 4"></div>
-          </div>
-        </div>
-        <h3>Nebula Starship</h3>
-        <p>A futuristic spaceship model with glowing engines and sci-fi details, perfect for space adventure scenes.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-      </div>
-
-      <div class="card">
-        <div class="swiper projectSwiper4">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/car1.jpeg" alt="Cyber Racer 1"></div>
-            <div class="swiper-slide"><img src="blender/B_images/car2.jpeg" alt="Cyber Racer 2"></div>
-          </div>
-        </div>
-        <h3>Toon Racer</h3>
-        <p>A cartoonish, exaggerated car design with bold colors and fun proportions, ideal for stylized racing games or animated scenes.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-      </div>
-
-      <!-- Cards with single images next -->
-      <div class="card">
-        <div class="swiper projectSwiper5">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/desert.jpeg" alt="Desert Monolith"></div>
-          </div>
-        </div>
-        <h3>Desert Monolith</h3>
-        <p>A mysterious rock formation set in a sun-baked desert, ideal for environment backgrounds and scenes.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-      </div>
-
-      <div class="card">
-        <div class="swiper projectSwiper6">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/Witch.jpeg" alt="Wicked Witch"></div>
-          </div>
-        </div>
-        <h3>Wicked Witch</h3>
-        <p>A stylized Halloween witch character, perfect for spooky animations or seasonal projects.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-      </div>
-
-      <div class="card">
-        <div class="swiper projectSwiper7">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/halloween.jpeg" alt="Pumpkin Night"></div>
-          </div>
-        </div>
-        <h3>Pumpkin Night</h3>
-        <p>A festive Halloween pumpkin scene with glowing lights and horror vibes.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-      </div>
-
-      <div class="card">
-        <div class="swiper projectSwiper8">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="blender/B_images/clock.jpeg" alt="Retro Clock"></div>
-          </div>
-        </div>
-        <h3>Retro Clock</h3>
-        <p>A vintage-style clock model, great for interior renders and time-themed projects.</p>
-        <a class="button" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-      </div>
-
-      <!-- Animation/video cards (no thumbnail option) -->
-      <div class="card">
-        <video controls src="blender/B_videos/Plane animation.mp4" style="width:100%; border-radius:10px;"></video>
-        <h3>Toy Plane Adventure</h3>
-        <p>A red metallic biplane performing thrilling flying stunts mid-air. The animation showcases rigging and aerial maneuvers</p>
-      </div>
-
-      <div class="card">
-        <video controls src="blender/B_videos/perfume aniamtion.mp4" style="width:100%; border-radius:10px;"></video>
-        <h3>Perfume Dream</h3>
-        <p>A short animation highlighting a perfume bottle with elegant lighting and fluid motion.</p>
-      </div>
-      <!-- ...existing code... -->
     </div>
   </section>
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <script>
-    // Initialize all Swipers for each project
-    new Swiper('.projectSwiper1', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-    new Swiper('.projectSwiper2', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-    new Swiper('.projectSwiper3', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-    new Swiper('.projectSwiper4', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-    new Swiper('.projectSwiper5', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-    new Swiper('.projectSwiper6', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-    new Swiper('.projectSwiper7', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-    new Swiper('.projectSwiper8', { loop: true, autoplay: { delay: 3000 }, pagination: { el: '.swiper-pagination', clickable: true } });
-  </script>
+
+  <section id="projects" class="section">
+    <div class="section-header">
+      <h2 class="section-title">3D Modeling & Animation</h2>
+      <p class="section-subtitle">Bringing imagination to life through detailed 3D models and captivating animations</p>
+    </div>
+    
+    <div class="projects-grid">
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper1">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/chandrayaan1.jpeg" alt="Chandrayaan Explorer 1"></div>
+              <div class="swiper-slide"><img src="blender/B_images/chandrayaan2.jpeg" alt="Chandrayaan Explorer 2"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Chandrayaan Lander</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">3D Modeling</span>
+            <span class="tech-tag">Texturing</span>
+          </div>
+          <p>Detailed 3D recreation of India's Chandrayaan-3 lunar lander, featuring accurate proportions, realistic materials, and mission-inspired texturing.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper2">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/horror1.jpeg" alt="Haunted Hospital 1"></div>
+              <div class="swiper-slide"><img src="blender/B_images/horror2.jpeg" alt="Haunted Hospital 2"></div>
+              <div class="swiper-slide"><img src="blender/B_images/horror3.jpeg" alt="Haunted Hospital 3"></div>
+              <div class="swiper-slide"><img src="blender/B_images/horror4.jpeg" alt="Haunted Hospital 4"></div>
+              <div class="swiper-slide"><img src="blender/B_images/horror5.jpeg" alt="Haunted Hospital 5"></div>
+              <div class="swiper-slide"><img src="blender/B_images/horror6.jpeg" alt="Haunted Hospital 6"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Haunted Hospital</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Environment Design</span>
+            <span class="tech-tag">Atmospheric Lighting</span>
+          </div>
+          <p>Atmospheric horror environment featuring detailed props, eerie lighting setups, and carefully crafted mood to create an unsettling hospital setting.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper3">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/spaceship1.jpeg" alt="Nebula Starship 1"></div>
+              <div class="swiper-slide"><img src="blender/B_images/spaceship2.jpeg" alt="Nebula Starship 2"></div>
+              <div class="swiper-slide"><img src="blender/B_images/spaceship3.jpeg" alt="Nebula Starship 3"></div>
+              <div class="swiper-slide"><img src="blender/B_images/spaceship4.jpeg" alt="Nebula Starship 4"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Nebula Starship</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Sci-Fi Design</span>
+            <span class="tech-tag">Emission Materials</span>
+          </div>
+          <p>Futuristic spacecraft design with glowing propulsion systems, detailed hull texturing, and sci-fi aesthetic perfect for space exploration narratives.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper4">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/car1.jpeg" alt="Toon Racer 1"></div>
+              <div class="swiper-slide"><img src="blender/B_images/car2.jpeg" alt="Toon Racer 2"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Toon Racer</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Stylized Design</span>
+            <span class="tech-tag">Cartoon Shading</span>
+          </div>
+          <p>Stylized cartoon vehicle with exaggerated proportions, vibrant colors, and playful design elements perfect for arcade-style racing games.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
+        </div>
+      </div>
+
+      <!-- Move these four cards here, before the animation videos -->
+      <!-- New Card: Desert Monolith -->
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper5">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/desert.jpeg" alt="Desert Monolith"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Desert Monolith</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Environment</span>
+            <span class="tech-tag">3D Modeling</span>
+          </div>
+          <p>A mysterious rock formation set in a sun-baked desert, ideal for environment backgrounds and scenes.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+        </div>
+      </div>
+
+      <!-- New Card: Wicked Witch -->
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper6">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/Witch.jpeg" alt="Wicked Witch"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Wicked Witch</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Character</span>
+            <span class="tech-tag">Stylized</span>
+          </div>
+          <p>A stylized Halloween witch character, perfect for spooky animations or seasonal projects.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+        </div>
+      </div>
+
+      <!-- New Card: Pumpkin Night -->
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper7">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/halloween.jpeg" alt="Pumpkin Night"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Pumpkin Night</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Halloween</span>
+            <span class="tech-tag">Lighting</span>
+          </div>
+          <p>A festive Halloween pumpkin scene with glowing lights and horror vibes.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+        </div>
+      </div>
+
+      <!-- New Card: Retro Clock -->
+      <div class="card fade-in">
+        <div class="media-container">
+          <div class="swiper projectSwiper8">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="blender/B_images/clock.jpeg" alt="Retro Clock"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>Retro Clock</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Product</span>
+            <span class="tech-tag">Vintage</span>
+          </div>
+          <p>A vintage-style clock model, great for interior renders and time-themed projects.</p>
+          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="media-container">
+          <video controls class="video-container">
+            <source src="blender/B_videos/Plane animation.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-content">
+          <h3>Toy Plane Adventure</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Animation</span>
+            <span class="tech-tag">Rigging</span>
+          </div>
+          <p>Dynamic animation showcasing a vintage biplane performing aerial maneuvers, demonstrating advanced rigging and keyframe animation techniques.</p>
+        </div>
+      </div>
+      <div class="card fade-in">
+        <div class="media-container">
+          <video controls class="video-container">
+            <source src="blender/B_videos/perfume aniamtion.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-content">
+          <h3>Perfume Dream</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Product Visualization</span>
+            <span class="tech-tag">Motion Graphics</span>
+          </div>
+          <p>Elegant product animation featuring sophisticated lighting, smooth camera movements, and premium visual effects for commercial presentation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="games" class="section">
-    <h2>Game Projects</h2>
-    <div class="games">
-      <div class="card">
-        <video controls src="Unity/DeathNightZombie.mp4 "style="width:100%; border-radius:10px;"></video>
-        <h3>Sharp Shooter</h3>
-        <p>A first-person zombie shooter game developed in Unity, featuring intelligent enemy AI using NavMesh for realistic pathfinding. Players engage in fast-paced combat, and survive waves of zombies in a post-apocalyptic environment. Includes raycasting mechanics, health management, and immersive gameplay design.</p>
-        <a class="button" href="https://github.com/yourusername/sharp-shooter" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="card">
-        <video controls src="Unity/SnowmanRunner.mp4"style="width:100%; border-radius:10px;"></video>
-        <h3>Snowman Runner</h3>
-        <p>Endless runner game where a snowman dodges obstacles, changes size with power-ups, and manages health while navigating dynamic challenges. Includes interactive quiz gates—choose the right answer (like picking "Football" over "Tennis") to stay on track and boost performance.</p>
-        <a class="button" href="https://github.com/yourusername/sharp-shooter" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="card">
-        <div class="video-container">
-          <video controls src="Unity/ARplanets.mp4"></video>
+    <div class="section-header">
+      <h2 class="section-title">Game Development</h2>
+      <p class="section-subtitle">Interactive experiences built with Unity, featuring innovative gameplay mechanics and immersive worlds</p>
+    </div>
+    
+    <div class="games-grid">
+      <div class="card fade-in">
+        <div class="media-container">
+          <video controls class="video-container">
+            <source src="Unity/DeathNightZombie.mp4" type="video/mp4">
+          </video>
         </div>
-        <h3>AR Planets</h3>
-        <p>An educational AR experience that showcases the solar system using augmented reality. Users can explore planets in 3D with an intuitive UI that supports smooth interaction, rotation for a more engaging learning experience.</p>
-        <br>
-        <a class="button" href="https://github.com/yourusername/ar-planets" target="_blank">View on GitHub</a>
+        <div class="card-content">
+          <h3>Sharp Shooter</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">C#</span>
+            <span class="tech-tag">NavMesh AI</span>
+            <span class="tech-tag">FPS</span>
+          </div>
+          <p>Intense first-person zombie survival game featuring intelligent AI enemies using NavMesh pathfinding, dynamic health systems, and immersive combat mechanics in a post-apocalyptic setting.</p>
+          <a class="btn btn-primary" href="https://github.com/yourusername/sharp-shooter" target="_blank">View Source Code</a>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="video-container">
-          <video controls src="Unity/basketballgame.mp4"></video>
+      <div class="card fade-in">
+        <div class="media-container">
+          <video controls class="video-container">
+            <source src="Unity/SnowmanRunner.mp4" type="video/mp4">
+          </video>
         </div>
-        <h3>Basket Blast 3D</h3>
-        <p>A fun and challenging basketball game with a toon-style theme where players adjust throw force using the mouse scroll wheel. Score points by shooting the ball through the moving hoop within a 60-second time limit. Includes three difficulty modes with wind effects and dynamic obstacles to keep the action exciting</p>
-        <br>
-        <a class="button" href="https://github.com/yourusername/basketball" target="_blank">View on GitHub</a>
-      </div>   
-
-      <div class="card">
-        <div class="video-container">
-          <video controls src="Unity/PUN_multiplayer.mp4"></video>
+        <div class="card-content">
+          <h3>Snowman Runner</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">Endless Runner</span>
+            <span class="tech-tag">Quiz System</span>
+          </div>
+          <p>Innovative endless runner combining traditional obstacle avoidance with educational quiz elements. Features dynamic size-changing mechanics and interactive decision-making gameplay.</p>
+          <a class="btn btn-primary" href="https://github.com/yourusername/snowman-runner" target="_blank">View Source Code</a>
         </div>
-        <h3>PUN Multiplayer</h3>
-        <p>This project demonstrates real-time multiplayer functionality built with Photon Unity Networking (PUN). Players can create or join rooms to compete in a variety of engaging mini-games. Key features include seamless room creation, quick-join options, and a dynamic room list that displays all active game rooms in real time.</p>
-        <br>
-        <a class="button" href="https://github.com/Code-buddddY/Multiplayer_Unity_PUN_Demo" target="_blank">View on GitHub</a>
       </div>
-      <!-- Add more game cards as needed -->
+
+      <div class="card fade-in">
+        <div class="media-container">
+          <video controls class="video-container">
+            <source src="Unity/ARplanets.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-content">
+          <h3>AR Planets</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">ARCore</span>
+            <span class="tech-tag">Educational</span>
+          </div>
+          <p>Immersive augmented reality solar system explorer allowing users to interact with 3D planetary models, featuring intuitive touch controls and educational content delivery.</p>
+          <a class="btn btn-primary" href="https://github.com/yourusername/ar-planets" target="_blank">View Source Code</a>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="media-container">
+          <video controls class="video-container">
+            <source src="Unity/basketballgame.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-content">
+          <h3>Basket Blast 3D</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">Physics</span>
+            <span class="tech-tag">3D Sports</span>
+          </div>
+          <p>Challenging basketball simulation with realistic physics, variable difficulty modes, environmental effects like wind, and precision-based scoring mechanics.</p>
+          <a class="btn btn-primary" href="https://github.com/yourusername/basketball" target="_blank">View Source Code</a>
+        </div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="media-container">
+          <video controls class="video-container">
+            <source src="Unity/PUN_multiplayer.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-content">
+          <h3>PUN Multiplayer</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">Photon PUN</span>
+            <span class="tech-tag">Networking</span>
+          </div>
+          <p>Real-time multiplayer framework demonstration featuring room creation, matchmaking, and synchronized gameplay across multiple clients using Photon Unity Networking.</p>
+          <a class="btn btn-primary" href="https://github.com/Code-buddddY/Multiplayer_Unity_PUN_Demo" target="_blank">View Source Code</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="about" class="section about">
-    <h2>About Me</h2>
-    <p>A passionate creator exploring 3D modeling, game development, machine learning, and emerging technologies.</p>
-    <p>Tools I use: Blender, Unity, C#, Python and more.</p>
-    <a class="button" href="assets/CV_Tushar.pdf" download>Download CV</a>
+  <section id="about" class="section">
+    <div class="section-header">
+      <h2 class="section-title">About Me</h2>
+    </div>
+    
+    <div class="about-content">
+      <p class="about-text">
+        I'm a passionate creator at the intersection of art and technology, specializing in 3D modeling, game development, and interactive experiences. With expertise in industry-standard tools and a keen eye for detail, I bring digital worlds to life.
+      </p>
+      
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon">🎨</div>
+          <h3>3D Modeling</h3>
+          <p>Blender</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🎮</div>
+          <h3>Game Development</h3>
+          <p>Unity, C#, Game Design</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">📱</div>
+          <h3>AR/VR</h3>
+          <p>ARCore, Mixed Reality</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🤖</div>
+          <h3>Machine Learning</h3>
+          <p>Python, TensorFlow, AI Integration, RAG</p>
+        </div>
+      </div>
+      
+      <div style="margin-top: 3rem;">
+        <a class="btn btn-primary" href="assets/TusharResume.pdf" download>Download Resume</a>
+      </div>
+    </div>
   </section>
 
-  <section id="contact" class="section contact">
-    <h2>Contact</h2>
-    <p>Email: tushar2005sbm@gmail.com</p>
-    <p>GitHub: <a href="https://github.com/Code-buddddY" target="_blank">@Code-buddddY</a></p>
+  <section id="contact" class="section">
+    <div class="section-header">
+      <h2 class="section-title">Let's Create Together</h2>
+      <p class="section-subtitle">Ready to bring your vision to life? Let's discuss your next project</p>
+    </div>
+    
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📧</div>
+        <h3>Email</h3>
+        <p>tushar2005sbm@gmail.com</p>
+        <br>
+        <a class="btn btn-secondary" href="mailto:tushar2005sbm@gmail.com">Send Message</a>
+      </div>
+      
+      <div class="contact-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">💻</div>
+        <h3>GitHub</h3>
+        <p>@Code-buddddY</p>
+        <br>
+        <a class="btn btn-secondary" href="https://github.com/Code-buddddY" target="_blank">View Profile</a>
+      </div>
+      
+      <div class="contact-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🌐</div>
+        <h3>Portfolio</h3>
+        <p>Explore my work</p>
+        <br>
+        <a class="btn btn-secondary" href="#projects">View Projects</a>
+      </div>
+    </div>
   </section>
 
   <footer>
-    &copy; 2025 Tushar. All rights reserved.
+    <div class="footer-content">
+      <p>&copy; 2025 Tushar. Crafted with passion and precision.</p>
+    </div>
   </footer>
 
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
-    new Swiper('.chandrayaanSwiper', {
+    // Initialize Swiper for each project
+    const swiperOptions = {
       loop: true,
-      autoplay: { delay: 3000 },
-      pagination: { el: '.swiper-pagination', clickable: true },
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      effect: 'slide',
+      speed: 800,
+    };
+
+    // Initialize all project swipers
+    for (let i = 1; i <= 8; i++) {
+      new Swiper(`.projectSwiper${i}`, swiperOptions);
+    }
+
+    // Scroll progress indicator
+    window.addEventListener('scroll', () => {
+      const scrolled = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.querySelector('.scroll-progress').style.width = scrolled + '%';
     });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(card);
+    });
+
+    // Header background change on scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(15, 15, 35, 0.95)';
+      } else {
+        header.style.background = 'rgba(15, 15, 35, 0.8)';
+      }
+    });
+
+    // Mobile menu toggle (if needed)
+    const createMobileMenu = () => {
+      if (window.innerWidth <= 768) {
+        // Add mobile menu functionality here if needed
+        console.log('Mobile view detected');
+      }
+    };
+
+    window.addEventListener('resize', createMobileMenu);
+    createMobileMenu();
   </script>
 </body>
-
 </html>
