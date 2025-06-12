@@ -95,6 +95,7 @@
     nav {
       display: flex;
       gap: 2rem;
+      align-items: center;
     }
 
     nav a {
@@ -126,6 +127,26 @@
 
     nav a:hover::after {
       width: 80%;
+    }
+
+    /* Hamburger styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      z-index: 1100;
+    }
+    .hamburger span {
+      height: 3px;
+      width: 100%;
+      background: var(--primary);
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: all 0.3s;
+      display: block;
     }
 
     /* Hero Section */
@@ -514,6 +535,54 @@
       }
     }
 
+    @media (max-width: 900px) {
+      nav {
+        position: fixed;
+        top: 64px;
+        right: 0;
+        background: var(--bg-card);
+        flex-direction: column;
+        gap: 0;
+        width: 200px;
+        padding: 1.5rem 0;
+        border-radius: 0 0 0 1rem;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+        align-items: flex-start;
+        z-index: 1050;
+      }
+      nav.open {
+        transform: translateX(0);
+      }
+      nav a {
+        width: 100%;
+        padding: 1rem 2rem;
+        border-radius: 0;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-primary);
+        background: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .header-content {
+        padding-right: 0.5rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      nav {
+        width: 100vw;
+        top: 56px;
+        right: 0;
+        border-radius: 0 0 0 0;
+      }
+      .logo {
+        font-size: 1.1rem;
+      }
+    }
+
     /* Swiper Customization */
     .swiper-pagination-bullet {
       background: var(--primary);
@@ -553,7 +622,12 @@
   <header>
     <div class="header-content">
       <div class="logo">Tushar.dev</div>
-      <nav>
+      <div class="hamburger" id="hamburger-menu" aria-label="Open navigation" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav id="main-nav">
         <a href="#projects">Projects</a>
         <a href="#games">Games</a>
         <a href="#about">About</a>
@@ -1049,6 +1123,30 @@
         header.style.background = 'rgba(15, 15, 35, 0.95)';
       } else {
         header.style.background = 'rgba(15, 15, 35, 0.8)';
+      }
+    });
+
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger-menu');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      hamburger.classList.toggle('active');
+    });
+    // Optional: close nav on link click (mobile)
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) {
+          nav.classList.remove('open');
+          hamburger.classList.remove('active');
+        }
+      });
+    });
+    // Optional: close nav on outside click
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 900 && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+        nav.classList.remove('open');
+        hamburger.classList.remove('active');
       }
     });
 
