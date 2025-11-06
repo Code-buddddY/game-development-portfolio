@@ -23,6 +23,8 @@
       --glow: rgba(99, 102, 241, 0.15);
       --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       --shadow-xl: 0 35px 70px -12px rgba(0, 0, 0, 0.35);
+      --muted-bg: linear-gradient(180deg, rgba(10,12,20,0.6), rgba(6,8,18,0.8));
+      --card-elev: 0 12px 30px rgba(2,6,23,0.45);
     }
 
     * {
@@ -158,6 +160,9 @@
       text-align: center;
       padding: 0 2rem;
       position: relative;
+      background: linear-gradient(180deg, rgba(10,12,20,0.28), rgba(6,8,18,0.36));
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+      padding-bottom: 3.5rem;
     }
 
     .hero-content {
@@ -193,9 +198,11 @@
 
     /* Section Styles */
     .section {
-      padding: 8rem 2rem;
+      padding: 4.5rem 2rem;
       max-width: 1400px;
       margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border-radius: 1rem;
     }
 
     .section-header {
@@ -204,7 +211,7 @@
     }
 
     .section-title {
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-size: clamp(2.6rem, 4.8vw, 3.6rem);
       font-weight: 700;
       margin-bottom: 1rem;
       background: linear-gradient(135deg, var(--primary), var(--accent));
@@ -220,27 +227,27 @@
       margin: 0 auto;
     }
 
-    /* Grid Layouts */
+    /* Grid Layouts (slightly tighter, more responsive) */
     .projects-grid, .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* improved breakpoint */
+      gap: 2.5rem; /* more breathing room */
       margin-top: 2rem;
     }
 
-    /* Enhanced Cards */
+    /* Enhanced Cards (add lift and subtle scale) */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 1.5rem;
       padding: 1.5rem;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.35s cubic-bezier(.2,.9,.3,1), box-shadow 0.35s ease, background 0.35s ease;
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(10px);
       display: flex;
       flex-direction: column;
-      min-height: 540px; /* Set a consistent min-height for all cards */
+      min-height: 480px; /* slightly reduced for better flow */
       height: 100%;
     }
 
@@ -257,18 +264,19 @@
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      background: var(--bg-card-hover);
-      border-color: var(--primary);
-      box-shadow: var(--shadow-xl), 0 0 40px var(--glow);
+      transform: translateY(-12px) scale(1.01);
+      box-shadow: var(--card-elev), 0 0 40px var(--glow);
+      background: linear-gradient(180deg, var(--bg-card-hover), rgba(22,33,62,0.12));
     }
 
     .card:hover::before {
       opacity: 1;
     }
 
-    /* Media Containers */
+    /* Media Containers (smooth zoom on hover + border) */
     .media-container {
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: transform 0.5s ease, box-shadow 0.35s ease;
       border-radius: 1rem;
       overflow: hidden;
       margin-bottom: 1.5rem;
@@ -367,22 +375,22 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.875rem 1.5rem;
+      padding: 0.75rem 1.25rem;
       border-radius: 0.75rem;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.975rem;
+      font-size: 1rem;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
       border: none;
       cursor: pointer;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.18);
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+      background: linear-gradient(90deg,var(--primary),var(--accent));
+      border: none;
     }
 
     .btn-primary:hover {
@@ -391,9 +399,9 @@
     }
 
     .btn-secondary {
-      background: rgba(99, 102, 241, 0.1);
+      background: rgba(99, 102, 241, 0.06);
+      border: 1px solid rgba(99, 102, 241, 0.18);
       color: var(--primary);
-      border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
     .btn-secondary:hover {
@@ -682,40 +690,10 @@
         <div class="media-container">
           <div class="swiper projectSwiperGenZ">
             <div class="swiper-wrapper">
-              <!-- Final Renders -->
+              <!-- Final Renders (kept) -->
               <div class="swiper-slide"><img src="blender/B_images/GenZRender1.png" alt="Gen Z Character Render 1"></div>
               <div class="swiper-slide"><img src="blender/B_images/GenZRender2.png" alt="Gen Z Character Render 2"></div>
               <div class="swiper-slide"><img src="blender/B_images/GenZRender3.png" alt="Gen Z Character Render 3"></div>
-
-              <!-- Body Mesh -->
-              <div class="swiper-slide"><img src="blender/B_images/BodyMeshFront.png" alt="Body Mesh Front"></div>
-              <div class="swiper-slide"><img src="blender/B_images/BodyMeshSide.png" alt="Body Mesh Side"></div>
-              <div class="swiper-slide"><img src="blender/B_images/BodyMeshBack.png" alt="Body Mesh Back"></div>
-
-              <!-- Cap -->
-              <div class="swiper-slide"><img src="blender/B_images/CapMeshFront.png" alt="Cap Mesh Front"></div>
-              <div class="swiper-slide"><img src="blender/B_images/CapMeshSide.png" alt="Cap Mesh Side"></div>
-
-              <!-- T-Shirt -->
-              <div class="swiper-slide"><img src="blender/B_images/TshirtMeshFront.png" alt="T-shirt Mesh Front"></div>
-              <div class="swiper-slide"><img src="blender/B_images/TshirtMeshSide.png" alt="T-shirt Mesh Side"></div>
-              <div class="swiper-slide"><img src="blender/B_images/TshirtMeshBack.png" alt="T-shirt Mesh Back"></div>
-
-              <!-- Jacket -->
-              <div class="swiper-slide"><img src="blender/B_images/JacketMeshFront.png" alt="Jacket Mesh Front"></div>
-              <div class="swiper-slide"><img src="blender/B_images/JacketMeshSide.png" alt="Jacket Mesh Side"></div>
-              <div class="swiper-slide"><img src="blender/B_images/JacketMeshBack.png" alt="Jacket Mesh Back"></div>
-
-              <!-- Denim -->
-              <div class="swiper-slide"><img src="blender/B_images/DenimMeshFront.png" alt="Denim Mesh Front"></div>
-              <div class="swiper-slide"><img src="blender/B_images/DenimFrontSide.png" alt="Denim Mesh Side"></div>
-              <div class="swiper-slide"><img src="blender/B_images/DenimMeshBack.png" alt="Denim Mesh Back"></div>
-
-              <!-- Shoes -->
-              <div class="swiper-slide"><img src="blender/B_images/ShoesMeshFront.png" alt="Shoes Mesh Front"></div>
-              <div class="swiper-slide"><img src="blender/B_images/ShoesMeshSide.png" alt="Shoes Mesh Side"></div>
-              <div class="swiper-slide"><img src="blender/B_images/ShoesMeshBack.png" alt="Shoes Mesh Back"></div>
-              <div class="swiper-slide"><img src="blender/B_images/ShoesMeshTop.png" alt="Shoes Mesh Top"></div>
             </div>
             <div class="swiper-pagination"></div>
           </div>
@@ -1110,7 +1088,7 @@
 
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
-    // Initialize Swiper for each project
+    // Initialize Swiper for each .swiper element and pause autoplay on hover
     const swiperOptions = {
       loop: true,
       autoplay: {
@@ -1125,12 +1103,21 @@
       speed: 800,
     };
 
-    // Initialize all project swipers
-    for (let i = 1; i <= 8; i++) {
-      new Swiper(`.projectSwiper${i}`, swiperOptions);
-    }
-    // Initialize GenZ swiper
-    new Swiper('.projectSwiperGenZ', swiperOptions);
+    // Remove old specific loop; create swipers for every .swiper element
+    const swiperInstances = [];
+    document.querySelectorAll('.swiper').forEach(swiperEl => {
+      // only init if there is a wrapper (prevents empty containers)
+      if (!swiperEl.querySelector('.swiper-wrapper')) return;
+      const instance = new Swiper(swiperEl, swiperOptions);
+      swiperInstances.push({el: swiperEl, instance});
+      // pause autoplay while hovering media area (better UX)
+      swiperEl.addEventListener('mouseenter', () => {
+        if (instance.autoplay && instance.autoplay.running) instance.autoplay.stop();
+      });
+      swiperEl.addEventListener('mouseleave', () => {
+        if (instance.autoplay && !instance.autoplay.running) instance.autoplay.start();
+      });
+    });
 
     // Scroll progress indicator
     window.addEventListener('scroll', () => {
