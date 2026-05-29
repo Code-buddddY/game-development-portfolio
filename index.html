@@ -1,1211 +1,1623 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tushar | 3D Artist & Game Developer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <title>Tushar — 3D Artist & Game Developer</title>
+
+  <!-- SEO & description -->
+  <meta name="description" content="Tushar is a 3D artist and game developer specialising in Blender modeling, Unity game development, ARCore experiences, and interactive storytelling.">
+  <meta name="author" content="Tushar">
+  <meta name="keywords" content="3D artist, game developer, Blender, Unity, ARCore, portfolio, animation, C#, technical artist, level designer">
+  <meta name="theme-color" content="#06060e">
+
+  <!-- Open Graph -->
+  <meta property="og:type"         content="website">
+  <meta property="og:title"        content="Tushar — 3D Artist & Game Developer">
+  <meta property="og:description"  content="Creating immersive worlds through 3D modeling, game development, and AR/VR experiences.">
+  <meta property="og:url"          content="https://tushar.dev">
+  <meta property="og:image"        content="https://tushar.dev/assets/og-preview.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale"       content="en_IN">
+  <meta property="og:site_name"    content="Tushar.dev">
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@tushardev">
+  <meta name="twitter:title"       content="Tushar — 3D Artist & Game Developer">
+  <meta name="twitter:description" content="Creating immersive worlds through 3D modeling, game development, and AR/VR experiences.">
+  <meta name="twitter:image"       content="https://tushar.dev/assets/og-preview.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2306060e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='700' fill='%23c8a96e'%3ET%3C/text%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
   <style>
+    /* ─── VARIABLES ─── */
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --accent: #06b6d4;
-      --accent-glow: #0891b2;
-      --bg-dark: #0f0f23;
-      --bg-card: #1a1a2e;
-      --bg-card-hover: #16213e;
-      --text-primary: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
-      --border: #1e293b;
-      --glow: rgba(99, 102, 241, 0.15);
-      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      --shadow-xl: 0 35px 70px -12px rgba(0, 0, 0, 0.35);
-      --muted-bg: linear-gradient(180deg, rgba(10,12,20,0.6), rgba(6,8,18,0.8));
-      --card-elev: 0 12px 30px rgba(2,6,23,0.45);
+      --c0: #06060e;
+      --c1: #0d0d1a;
+      --c2: #12121f;
+      --c3: #1a1a2d;
+      --c4: #252538;
+      --text: #eeeef4;
+      --muted: #8888a8;
+      --faint: #3a3a58;
+      --gold: #c8a96e;
+      --gold2: #f0d08a;
+      --teal: #4dd9c0;
+      --indigo: #7b72f8;
+      --rad: 16px;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --theme-transition: background .4s, color .4s, border-color .4s;
     }
 
-    * {
-      margin: 0;
+    /* ─── LIGHT THEME — warm parchment ─── */
+    html.light {
+      --c0: #f5f0e8;
+      --c1: #ede7d9;
+      --c2: #faf7f2;
+      --c3: #e8e0d0;
+      --c4: #ddd5c2;
+      --text: #1c1812;
+      --muted: #6b6045;
+      --faint: #cec5b0;
+      --gold: #a07828;
+      --gold2: #c49a3c;
+      --teal: #2a8a78;
+      --indigo: #5248c8;
+    }
+
+    /* Global transitions for smooth theme switch */
+    body, header, .card, .exp-card, .skill-card, .contact-card,
+    .tag, .sw-badge, .filter-tab, .btn-outline, footer,
+    section.page-section, .stats-strip, .stat {
+      transition: background .45s ease, color .45s ease, border-color .45s ease, box-shadow .45s ease;
+    }
+
+    html.light body { background: var(--c0); color: var(--text); }
+    html.light header.scrolled {
+      background: rgba(245,240,232,.92);
+      border-bottom-color: var(--faint);
+      backdrop-filter: blur(18px);
+    }
+    /* Tone down the particle bg in light mode */
+    html.light #canvas-bg { opacity: .06; filter: saturate(.4); }
+
+    /* Hero */
+    html.light .hero { background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(160,120,40,.07) 0%, transparent 70%); }
+    html.light .hero h1 {
+      background: linear-gradient(155deg, #1c1812 25%, #6b6045 100%);
+      -webkit-background-clip: text; background-clip: text;
+    }
+    html.light .hero-label { color: var(--gold); }
+    html.light .scroll-hint span, html.light .scroll-line { opacity: .5; }
+
+    /* Section titles */
+    html.light .sec-tag { color: var(--gold); }
+    html.light .sec-title {
+      background: linear-gradient(135deg, #1c1812 40%, #6b6045 100%);
+      -webkit-background-clip: text; background-clip: text;
+    }
+    html.light .divider { background: linear-gradient(90deg, var(--gold), var(--teal)); }
+
+    /* Stats */
+    html.light .stats-strip { border-color: var(--faint); background: var(--c2); }
+    html.light .stat { border-right-color: var(--faint); }
+    html.light .stat-num {
+      background: linear-gradient(135deg, var(--gold), var(--teal));
+      -webkit-background-clip: text; background-clip: text;
+    }
+
+    /* Cards */
+    html.light .card {
+      background: var(--c2);
+      border-color: var(--faint);
+      box-shadow: 0 2px 12px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.04);
+    }
+    html.light .card:hover {
+      border-color: rgba(160,120,40,.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,.1), 0 0 0 1px rgba(160,120,40,.1);
+    }
+    html.light .card-media { background: var(--c3); }
+    html.light .card-body h3 { color: var(--text); }
+
+    /* Tags */
+    html.light .tag {
+      background: rgba(82,72,200,.07);
+      border-color: rgba(82,72,200,.18);
+      color: var(--indigo);
+    }
+
+    /* Filter tabs */
+    html.light .filter-tab { color: var(--muted); border-color: var(--faint); background: transparent; }
+    html.light .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
+    html.light .filter-tab.active {
+      background: rgba(160,120,40,.1);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Buttons */
+    html.light .btn-outline { color: var(--muted); border-color: var(--faint); }
+    html.light .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    html.light .btn-gold { background: linear-gradient(135deg, #a07828, #c49a3c); color: #faf7f2; }
+    html.light .btn-gold:hover { box-shadow: 0 12px 28px rgba(160,120,40,.3); }
+
+    /* Skill & contact cards */
+    html.light .skill-card {
+      background: var(--c2); border-color: var(--faint);
+      box-shadow: 0 1px 6px rgba(0,0,0,.04);
+    }
+    html.light .skill-card:hover { border-color: rgba(160,120,40,.4); }
+    html.light .skill-card h4 { color: var(--text); }
+    html.light .skill-card p { color: var(--muted); }
+    html.light .contact-card {
+      background: var(--c2); border-color: var(--faint);
+      box-shadow: 0 1px 6px rgba(0,0,0,.04);
+    }
+    html.light .contact-card:hover { border-color: rgba(42,138,120,.35); }
+
+    /* Experience cards */
+    html.light .exp-card {
+      background: var(--c2); border-color: var(--faint);
+      box-shadow: 0 2px 16px rgba(0,0,0,.05);
+    }
+    html.light .exp-card:hover { border-color: rgba(160,120,40,.3); box-shadow: 0 12px 36px rgba(0,0,0,.09); }
+    html.light .exp-card::before { background: linear-gradient(180deg, var(--gold), var(--teal)); }
+    html.light .exp-title { color: var(--text); }
+    html.light .exp-company { color: var(--gold); }
+    html.light .exp-date { background: var(--c3); border-color: var(--faint); color: var(--muted); }
+    html.light .exp-type { background: rgba(42,138,120,.1); border-color: rgba(42,138,120,.2); color: var(--teal); }
+    html.light .exp-achievements li::before { color: var(--gold); }
+    html.light .exp-achievements li strong { color: var(--text); }
+    html.light .exp-link { color: var(--teal); border-color: rgba(42,138,120,.25); background: rgba(42,138,120,.06); }
+    html.light .exp-link:hover { background: rgba(42,138,120,.15); border-color: var(--teal); }
+
+    /* Software badges */
+    html.light .sw-badge { background: var(--c3); border-color: var(--faint); color: var(--muted); }
+    html.light .sw-badge .sw-dot { background: var(--teal); }
+    html.light .sw-badge:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* Section backgrounds */
+    html.light #games { background: linear-gradient(180deg, var(--c1) 0%, var(--c0) 100%) !important; }
+    html.light #contact { background: var(--c1) !important; }
+    html.light .exp-section { background: transparent; }
+
+    /* Footer & swiper */
+    html.light footer { border-top-color: var(--faint); }
+    html.light footer p { color: var(--muted); }
+    html.light .swiper-pagination-bullet { background: var(--gold); }
+
+    /* Scroll bar */
+    html.light #scroll-bar { background: linear-gradient(90deg, var(--gold), var(--teal)); }
+
+    /* ─── THEME TOGGLE — clean SVG icon ─── */
+    #theme-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 24px;
+      background: var(--c3);
+      border: 1px solid var(--faint);
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: background .35s, border-color .35s, box-shadow .25s;
+      flex-shrink: 0;
       padding: 0;
-      box-sizing: border-box;
+      outline: none;
+    }
+    #theme-toggle:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,169,110,.12);
+    }
+    #theme-toggle:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
     }
 
+    /* Track fill on light */
+    html.light #theme-toggle { background: rgba(160,120,40,.15); border-color: rgba(160,120,40,.3); }
+
+    .toggle-thumb {
+      position: absolute; left: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: linear-gradient(135deg, #c8a96e, #f0d08a);
+      box-shadow: 0 1px 4px rgba(0,0,0,.35);
+      transition: transform .35s cubic-bezier(.4,0,.2,1), background .35s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    html.light .toggle-thumb {
+      transform: translateX(20px);
+      background: linear-gradient(135deg, #a07828, #c49a3c);
+    }
+
+    /* SVG icons inside thumb */
+    .toggle-thumb svg { width: 9px; height: 9px; display: block; }
+    .icon-moon { display: block; }
+    .icon-sun  { display: none; }
+    html.light .icon-moon { display: none; }
+    html.light .icon-sun  { display: block; }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      line-height: 1.6;
-      scroll-behavior: smooth;
+      font-family: var(--font-body);
+      background: var(--c0);
+      color: var(--text);
+      line-height: 1.65;
       overflow-x: hidden;
+      transition: background .4s, color .4s;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; }
+
+    /* ─── SCROLL PROGRESS ─── */
+    #scroll-bar {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--teal));
+      transition: width .1s linear;
     }
 
-    /* Animated background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
-      z-index: -1;
-      animation: backgroundFlow 20s ease-in-out infinite;
+    /* ─── THREE.JS CANVAS ─── */
+    #canvas-bg {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
     }
 
-    @keyframes backgroundFlow {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
-    }
-
-    /* Header */
+    /* ─── HEADER ─── */
     header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(15, 15, 35, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
-      z-index: 1000;
-      transition: all 0.3s ease;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 1.25rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s, backdrop-filter .4s;
     }
-
-    .header-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .header-right {
+      display: flex; align-items: center; gap: .9rem; flex-shrink: 0;
     }
-
+    header.scrolled {
+      background: rgba(6,6,14,.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--faint);
+    }
     .logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.5rem;
-      font-weight: 600;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-family: var(--font-mono);
+      font-size: 1.1rem; font-weight: 500;
+      letter-spacing: .06em;
+      background: linear-gradient(120deg, var(--gold), var(--teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
-    nav {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
+    nav { display: flex; gap: 2.5rem; align-items: center; }
     nav a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
+      font-family: var(--font-body);
+      font-size: .875rem; font-weight: 400;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--muted);
+      transition: color .25s;
     }
+    nav a:hover { color: var(--text); }
 
-    nav a:hover {
-      color: var(--text-primary);
-      background: rgba(99, 102, 241, 0.1);
+    /* ─── HAMBURGER ─── */
+    .ham {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; z-index: 600;
     }
+    .ham span {
+      display: block; width: 24px; height: 2px;
+      background: var(--muted); border-radius: 2px;
+      transition: all .3s;
+    }
+    .ham.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .ham.open span:nth-child(2) { opacity: 0; }
+    .ham.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-    }
-
-    nav a:hover::after {
-      width: 80%;
-    }
-
-    /* Hamburger styles */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      cursor: pointer;
-      z-index: 1100;
-    }
-    .hamburger span {
-      height: 3px;
-      width: 100%;
-      background: var(--primary);
-      margin: 4px 0;
-      border-radius: 2px;
-      transition: all 0.3s;
-      display: block;
-    }
-
-    /* Hero Section */
+    /* ─── HERO ─── */
     .hero {
+      position: relative; z-index: 1;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       text-align: center;
       padding: 0 2rem;
-      position: relative;
-      background: linear-gradient(180deg, rgba(10,12,20,0.28), rgba(6,8,18,0.36));
-      border-bottom: 1px solid rgba(255,255,255,0.02);
-      padding-bottom: 3.5rem;
     }
-
-    .hero-content {
-      max-width: 800px;
-      animation: fadeInUp 1s ease-out;
-    }
-
-    .hero h1 {
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 700;
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: .75rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold);
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      opacity: 0; animation: fadeUp .8s .2s forwards;
+    }
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 800; line-height: 1;
+      letter-spacing: -.03em;
+      background: linear-gradient(160deg, var(--text) 30%, var(--muted) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
+      opacity: 0; animation: fadeUp .9s .4s forwards;
     }
-
-    .hero .subtitle {
-      font-size: 1.5rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      font-weight: 300;
-    }
-
-    .hero .tagline {
-      font-size: 1.125rem;
-      color: var(--text-muted);
-      margin-bottom: 3rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Section Styles */
-    .section {
-      padding: 4.5rem 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-      border-radius: 1rem;
-    }
-
-    .section-header {
+    .hero-sub {
+      margin-top: 1.75rem;
+      font-size: 1.15rem; font-weight: 300;
+      color: var(--muted); max-width: 560px;
       text-align: center;
-      margin-bottom: 4rem;
+      margin-left: auto; margin-right: auto;
+      opacity: 0; animation: fadeUp .9s .6s forwards;
+    }
+    .hero-cta {
+      margin-top: 2.75rem;
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      opacity: 0; animation: fadeUp .9s .8s forwards;
     }
 
-    .section-title {
-      font-size: clamp(2.6rem, 4.8vw, 3.6rem);
-      font-weight: 700;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.6rem;
+      border-radius: 8px;
+      font-family: var(--font-body); font-weight: 500; font-size: .9rem;
+      letter-spacing: .02em;
+      cursor: pointer; border: none;
+      transition: all .25s;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #c8a96e, #f0d08a);
+      color: #0a0805;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(200,169,110,.35); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--faint);
+      color: var(--muted);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .btn-sm { padding: .55rem 1.1rem; font-size: .8rem; }
+
+    /* ─── SCROLL HINT ─── */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      opacity: 0; animation: fadeUp .9s 1.2s forwards;
+    }
+    .scroll-hint span {
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--faint);
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(180deg, var(--faint), transparent);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+
+    /* ─── SECTIONS ─── */
+    section.page-section { position: relative; z-index: 1; padding: 8rem 2rem; }
+    .container { max-width: 1280px; margin: 0 auto; }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-tag {
+      font-family: var(--font-mono);
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .sec-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -.025em;
+      background: linear-gradient(135deg, var(--text), var(--muted));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
+      margin-bottom: 1rem;
+    }
+    .sec-desc { font-size: 1.05rem; color: var(--muted); max-width: 540px; font-weight: 300; }
+
+    /* ─── FILTER TABS ─── */
+    .filter-tabs {
+      display: flex; gap: .6rem; flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
+    .filter-tab {
+      font-family: var(--font-mono);
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .5rem 1.1rem;
+      border-radius: 6px;
+      border: 1px solid var(--faint);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .22s;
+    }
+    .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-tab.active {
+      background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(77,217,192,.1));
+      border-color: var(--gold);
+      color: var(--gold2);
     }
 
-    .section-subtitle {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Grid Layouts (slightly tighter, more responsive) */
-    .projects-grid, .games-grid {
+    /* ─── GRID ─── */
+    .grid-3 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* improved breakpoint */
-      gap: 2.5rem; /* more breathing room */
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.75rem;
       margin-top: 2rem;
     }
 
-    /* Enhanced Cards (add lift and subtle scale) */
+    /* ─── CARDS ─── */
     .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      transition: transform 0.35s cubic-bezier(.2,.9,.3,1), box-shadow 0.35s ease, background 0.35s ease;
-      position: relative;
+      background: var(--c2);
+      border: 1px solid var(--faint);
+      border-radius: var(--rad);
       overflow: hidden;
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      min-height: 480px; /* slightly reduced for better flow */
-      height: 100%;
+      display: flex; flex-direction: column;
+      transition: transform .35s cubic-bezier(.2,.9,.3,1), border-color .35s, box-shadow .35s, opacity .4s;
+      opacity: 0; transform: translateY(28px);
     }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .card.hidden-card { opacity: 0 !important; transform: scale(0.95) !important; pointer-events: none; position: absolute; }
     .card:hover {
-      transform: translateY(-12px) scale(1.01);
-      box-shadow: var(--card-elev), 0 0 40px var(--glow);
-      background: linear-gradient(180deg, var(--bg-card-hover), rgba(22,33,62,0.12));
+      transform: translateY(-10px);
+      border-color: rgba(200,169,110,.35);
+      box-shadow: 0 30px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(200,169,110,.08);
+    }
+    .card-media {
+      position: relative; height: 220px; background: var(--c1); overflow: hidden;
+    }
+    .card-media .swiper, .card-media video { width: 100%; height: 100%; }
+    .card-media .swiper-slide img { width: 100%; height: 220px; object-fit: cover; }
+    .card-media video { object-fit: cover; display: block; }
+    .card-body {
+      padding: 1.4rem 1.5rem 1.6rem;
+      flex: 1; display: flex; flex-direction: column; gap: .75rem;
+    }
+    .card-body h3 {
+      font-family: var(--font-head);
+      font-size: 1.2rem; font-weight: 700;
+      letter-spacing: -.01em; color: var(--text);
+    }
+    .card-body p { font-size: .88rem; color: var(--muted); font-weight: 300; line-height: 1.6; flex: 1; }
+    .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: .68rem; font-weight: 500; letter-spacing: .04em;
+      padding: .22rem .6rem; border-radius: 4px;
+      background: rgba(123,114,248,.12);
+      border: 1px solid rgba(123,114,248,.22);
+      color: #a29af9;
     }
 
-    .card:hover::before {
-      opacity: 1;
+    /* ─── GRID WRAPPER for filter ─── */
+    .grid-wrapper { position: relative; }
+    .grid-wrapper .grid-3 { position: relative; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      width: 64px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--teal));
+      border-radius: 2px; margin: 1.5rem 0 2rem;
     }
 
-    /* Media Containers (smooth zoom on hover + border) */
-    .media-container {
-      border: 1px solid rgba(255,255,255,0.03);
-      transition: transform 0.5s ease, box-shadow 0.35s ease;
-      border-radius: 1rem;
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-      position: relative;
-      background: #000;
-      height: 240px; /* Fixed height for uniformity */
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* ─── ABOUT ─── */
+    .about-wrap {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
     }
-
-    .swiper {
-      border-radius: 1rem;
-      height: 100%; /* Fill the media-container */
-      min-height: 100%;
-      width: 100%;
-    }
-
-    .swiper-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .video-container {
-      aspect-ratio: unset;
-      width: 100%;
-      height: 100%;
-      min-height: 100%;
-      border-radius: 1rem;
-      overflow: hidden;
-      background: #000;
-      object-fit: cover;
-      display: block;
-    }
-
-    .video-container video,
-    video.video-container {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 1rem;
-      display: block;
-    }
-
-    /* Card Content */
-    .card-content {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: var(--text-primary);
-    }
-
-    .card p {
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      font-size: 1rem;
-      line-height: 1.6;
-      min-height: 56px; /* Ensures space for 2-3 lines, adjust as needed */
-      /* This helps align buttons even if text is short */
-    }
-
-    /* Align button to bottom of card */
-    .card-content .btn {
-      margin-top: auto;
-    }
-
-    /* Tech Stack Tags */
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .tech-tag {
-      background: rgba(99, 102, 241, 0.1);
-      color: var(--primary);
-      padding: 0.25rem 0.75rem;
-      border-radius: 1rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      border: 1px solid rgba(99, 102, 241, 0.2);
-    }
-
-    /* Enhanced Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.25rem;
-      border-radius: 0.75rem;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(2,6,23,0.18);
-    }
-
-    .btn-primary {
-      background: linear-gradient(90deg,var(--primary),var(--accent));
-      border: none;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-secondary {
-      background: rgba(99, 102, 241, 0.06);
-      border: 1px solid rgba(99, 102, 241, 0.18);
-      color: var(--primary);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(99, 102, 241, 0.2);
-      transform: translateY(-2px);
-    }
-
-    /* About Section */
-    .about-content {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
     .about-text {
-      font-size: 1.25rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      line-height: 1.8;
+      font-size: 1.05rem; font-weight: 300;
+      color: var(--muted); line-height: 1.8; margin-bottom: 1.75rem;
     }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin: 3rem 0;
-    }
-
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .skill-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      text-align: center;
-      transition: all 0.3s ease;
+      background: var(--c2); border: 1px solid var(--faint);
+      border-radius: 12px; padding: 1.25rem;
+      transition: border-color .25s, transform .25s;
+    }
+    .skill-card:hover { border-color: rgba(200,169,110,.4); transform: translateY(-3px); }
+    .skill-icon { font-size: 1.8rem; margin-bottom: .6rem; }
+    .skill-card h4 { font-family: var(--font-head); font-size: .95rem; font-weight: 600; margin-bottom: .3rem; }
+    .skill-card p { font-size: .8rem; color: var(--muted); }
+
+    /* ─── SOFTWARE STACK ─── */
+    .software-strip {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+      margin-top: 2rem;
+    }
+    .sw-badge {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .45rem 1rem;
+      background: var(--c3); border: 1px solid var(--faint);
+      border-radius: 8px;
+      font-family: var(--font-mono); font-size: .75rem; font-weight: 500;
+      color: var(--muted);
+      transition: border-color .25s, color .25s, transform .2s;
+    }
+    .sw-badge:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+    .sw-badge .sw-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
     }
 
-    .skill-card:hover {
+    /* ─── COUNTER STRIP ─── */
+    .stats-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--faint);
+      border-radius: 14px; overflow: hidden; margin-bottom: 4rem;
+    }
+    .stat { padding: 2.25rem 1.5rem; text-align: center; border-right: 1px solid var(--faint); }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.5rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--gold), var(--teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: .78rem; color: var(--muted); margin-top: .25rem; }
+
+    /* ─── EXPERIENCE ─── */
+    .exp-section { position: relative; z-index: 1; padding: 6rem 2rem; }
+
+    .exp-list { display: flex; flex-direction: column; gap: 2rem; margin-top: 3rem; }
+
+    .exp-card {
+      background: var(--c2); border: 1px solid var(--faint);
+      border-radius: var(--rad); padding: 2.25rem 2.5rem;
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      opacity: 0; transform: translateY(24px);
+    }
+    .exp-card.visible { opacity: 1; transform: translateY(0); }
+    .exp-card:hover {
+      border-color: rgba(200,169,110,.3);
       transform: translateY(-4px);
-      border-color: var(--primary);
-      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,.4);
     }
-
-    .skill-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    .exp-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--gold), var(--teal));
     }
+    .exp-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .exp-title {
+      font-family: var(--font-head); font-size: 1.25rem;
+      font-weight: 700; color: var(--text);
+    }
+    .exp-company {
+      font-family: var(--font-mono); font-size: .82rem;
+      color: var(--gold); margin-top: .3rem;
+    }
+    .exp-meta {
+      display: flex; flex-direction: column; align-items: flex-end; gap: .3rem;
+    }
+    .exp-date {
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--muted); letter-spacing: .05em;
+      background: var(--c3); border: 1px solid var(--faint);
+      padding: .3rem .7rem; border-radius: 4px;
+    }
+    .exp-type {
+      font-size: .72rem; color: var(--teal);
+      background: rgba(77,217,192,.1);
+      border: 1px solid rgba(77,217,192,.2);
+      padding: .25rem .65rem; border-radius: 4px;
+      font-family: var(--font-mono); letter-spacing: .05em;
+    }
+    .exp-desc { font-size: .9rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.25rem; }
+    .exp-achievements { list-style: none; display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.5rem; }
+    .exp-achievements li {
+      font-size: .87rem; color: var(--muted); line-height: 1.65;
+      padding-left: 1.25rem; position: relative;
+    }
+    .exp-achievements li::before {
+      content: '▸';
+      position: absolute; left: 0;
+      color: var(--gold); font-size: .75rem;
+    }
+    .exp-achievements li strong { color: var(--text); font-weight: 500; }
+    .exp-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono); font-size: .75rem;
+      color: var(--teal);
+      border: 1px solid rgba(77,217,192,.25);
+      background: rgba(77,217,192,.06);
+      padding: .4rem .9rem; border-radius: 6px;
+      transition: all .22s;
+    }
+    .exp-link:hover { background: rgba(77,217,192,.15); border-color: var(--teal); transform: translateX(3px); }
 
-    /* Contact Section */
+    /* ─── CONTACT ─── */
     .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; margin-top: 3.5rem;
     }
-
     .contact-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 1.5rem;
-      padding: 2rem;
+      background: var(--c2); border: 1px solid var(--faint);
+      border-radius: var(--rad); padding: 2.25rem 1.75rem;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: border-color .3s, transform .3s;
     }
+    .contact-card:hover { border-color: rgba(77,217,192,.35); transform: translateY(-5px); }
+    .contact-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .contact-card h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 700; margin-bottom: .4rem; }
+    .contact-card p { font-size: .83rem; color: var(--muted); margin-bottom: 1.4rem; }
 
-    .contact-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
-      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    /* Footer */
+    /* ─── FOOTER ─── */
     footer {
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      padding: 3rem 2rem;
+      position: relative; z-index: 1;
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--faint);
       text-align: center;
-      margin-top: 6rem;
+    }
+    footer p { font-size: .8rem; color: var(--faint); }
+
+    /* ─── THREE.JS FLOAT CANVAS ─── */
+    #hero-gl { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ─── SWIPER ─── */
+    .swiper-pagination-bullet { background: var(--gold); opacity: .4; }
+    .swiper-pagination-bullet-active { opacity: 1; }
+
+    /* ─── DESKTOP: toggle sits between logo and nav ─── */
+    @media (min-width: 901px) {
+      header { justify-content: space-between; }
+      /* Move toggle out of the flex wrapper and into header row */
+      .header-right { display: flex; align-items: center; gap: 2rem; }
+      #theme-toggle { order: 0; }
     }
 
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      color: var(--text-muted);
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .fade-in {
-      animation: fadeInUp 0.8s ease-out forwards;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .header-content {
-        padding: 0 1rem;
-      }
-      
-      nav {
-        gap: 1rem;
-      }
-      
-      .section {
-        padding: 4rem 1rem;
-      }
-      
-      .projects-grid, .games-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      
-      .card {
-        padding: 1.25rem;
-        min-height: 420px; /* Slightly smaller min-height for mobile */
-      }
-      
-      .media-container {
-        height: 180px;
-      }
-      
-      .swiper {
-        height: 100%;
-        min-height: 100%;
-      }
-      
-      .video-container {
-        height: 100%;
-        min-height: 100%;
-      }
-    }
-
+    /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       nav {
-        position: fixed;
-        top: 64px;
-        right: 0;
-        background: var(--bg-card);
-        flex-direction: column;
-        gap: 0;
-        width: 200px;
-        padding: 1.5rem 0;
-        border-radius: 0 0 0 1rem;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        position: fixed; top: 0; right: 0; bottom: 0;
+        width: 260px; background: var(--c1); border-left: 1px solid var(--faint);
+        flex-direction: column; align-items: flex-start;
+        padding: 5rem 2rem 2rem; gap: 1.75rem;
         transform: translateX(100%);
-        transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-        align-items: flex-start;
-        z-index: 1050;
+        transition: transform .35s cubic-bezier(.4,0,.2,1);
+        z-index: 550;
       }
-      nav.open {
-        transform: translateX(0);
-      }
-      nav a {
-        width: 100%;
-        padding: 1rem 2rem;
-        border-radius: 0;
-        border-bottom: 1px solid var(--border);
-        color: var(--text-primary);
-        background: none;
-      }
-      .hamburger {
-        display: flex;
-      }
-      .header-content {
-        padding-right: 0.5rem;
-      }
+      nav.open { transform: translateX(0); }
+      nav a { font-size: 1rem; }
+      .ham { display: flex; }
+      .about-wrap { grid-template-columns: 1fr; gap: 3rem; }
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(3) { border-top: 1px solid var(--faint); }
+      .contact-grid { grid-template-columns: 1fr; }
+      .exp-card { padding: 1.5rem 1.75rem; }
+      .exp-header { flex-direction: column; }
+      .exp-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    }
+    @media (max-width: 600px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+      header { padding: 1rem 1.25rem; }
     }
 
-    @media (max-width: 500px) {
-      nav {
-        width: 100vw;
-        top: 56px;
-        right: 0;
-        border-radius: 0 0 0 0;
+    /* ─── CUSTOM CURSOR ─── */
+    @media (pointer: fine) {
+      *, *::before, *::after { cursor: none !important; }
+      #cursor-dot {
+        position: fixed; z-index: 99999; pointer-events: none;
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--gold); transform: translate(-50%, -50%);
+        transition: width .18s, height .18s, background .18s, opacity .18s;
+        will-change: transform;
       }
-      .logo {
-        font-size: 1.1rem;
+      #cursor-ring {
+        position: fixed; z-index: 99998; pointer-events: none;
+        width: 36px; height: 36px; border-radius: 50%;
+        border: 1.5px solid rgba(200,169,110,.55);
+        transform: translate(-50%, -50%);
+        transition: width .38s cubic-bezier(.2,.9,.3,1), height .38s cubic-bezier(.2,.9,.3,1),
+                    border-color .38s, opacity .3s, background .3s;
+        will-change: transform;
       }
-    }
-
-    /* Swiper Customization */
-    .swiper-pagination-bullet {
-      background: var(--primary);
-      opacity: 0.5;
-    }
-
-    .swiper-pagination-bullet-active {
-      opacity: 1;
-      background: var(--primary);
-    }
-
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: rgba(99, 102, 241, 0.1);
-      z-index: 9999;
-    }
-
-    .scroll-progress {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      width: 0%;
-      transition: width 0.1s ease;
+      body.cursor-hover #cursor-dot { width: 10px; height: 10px; background: var(--teal); }
+      body.cursor-hover #cursor-ring { width: 56px; height: 56px; border-color: rgba(77,217,192,.6); background: rgba(77,217,192,.06); }
+      body.cursor-click #cursor-dot { width: 4px; height: 4px; background: var(--gold2); }
+      body.cursor-click #cursor-ring { width: 26px; height: 26px; border-color: rgba(240,208,138,.9); }
+      .cursor-trail {
+        position: fixed; z-index: 99990; pointer-events: none;
+        border-radius: 50%; transform: translate(-50%, -50%);
+        animation: trailFade .55s ease-out forwards;
+      }
+      @keyframes trailFade { 0% { opacity: .55; } 100% { opacity: 0; transform: translate(-50%, -60%) scale(0); } }
     }
   </style>
 </head>
-
 <body>
-  <div class="scroll-indicator">
-    <div class="scroll-progress"></div>
-  </div>
 
-  <header>
-    <div class="header-content">
-      <div class="logo">Tushar.dev</div>
-      <div class="hamburger" id="hamburger-menu" aria-label="Open navigation" tabindex="0">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <nav id="main-nav">
-        <a href="#projects">Projects</a>
-        <a href="#games">Games</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="scroll-bar"></div>
+  <canvas id="canvas-bg"></canvas>
+
+  <!-- ═══ HEADER ═══ -->
+  <header id="header">
+    <div class="logo">Tushar.dev</div>
+    <nav id="nav">
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#games" class="nav-link">Games</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <div class="header-right">
+      <button id="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+        <span class="toggle-thumb">
+          <!-- Moon icon (dark mode) -->
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="#0a0805" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <!-- Sun icon (light mode) -->
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="#faf7f2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </span>
+      </button>
+      <button class="ham" id="ham" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Design. Develop. Play.</h1>
-      <p class="subtitle">3D Artist & Game Developer</p>
-      <p class="tagline">Creating immersive experiences through cutting-edge 3D modeling, game development, and interactive storytelling.</p>
-      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="home">
+    <canvas id="hero-gl"></canvas>
+    <div style="position: relative; z-index: 2;">
+      <p class="hero-label">3D Artist &amp; Game Developer</p>
+      <h1>Design.<br>Develop.<br>Play.</h1>
+      <p class="hero-sub">Crafting immersive worlds through 3D modeling, animation, and interactive game experiences.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-gold">View Work</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ═══ -->
+  <section class="page-section" style="padding-top: 0; padding-bottom: 3rem;">
+    <div class="container">
+      <div class="stats-strip">
+        <div class="stat"><div class="stat-num">10+</div><div class="stat-label">3D Models</div></div>
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Games Built</div></div>
+        <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Levels Designed</div></div>
+        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Studios Worked</div></div>
       </div>
     </div>
   </section>
 
-  <section id="projects" class="section">
-    <div class="section-header">
-      <h2 class="section-title">3D Modeling & Animation</h2>
-      <p class="section-subtitle">Bringing imagination to life through detailed 3D models and captivating animations</p>
-    </div>
-    
-    <div class="projects-grid">
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper1">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/chandrayaan1.jpeg" alt="Chandrayaan Explorer 1"></div>
-              <div class="swiper-slide"><img src="blender/B_images/chandrayaan2.jpeg" alt="Chandrayaan Explorer 2"></div>
+  <!-- ═══ 3D MODELING PROJECTS ═══ -->
+  <section id="projects" class="page-section">
+    <div class="container">
+      <p class="sec-tag">// 01 — 3D Art</p>
+      <h2 class="sec-title">Modeling &amp; Animation</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Bringing imagination to life through detailed 3D models and captivating animations.</p>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" id="project-filters">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="3d-art">3D Art</button>
+        <button class="filter-tab" data-filter="animation">Animation</button>
+        <button class="filter-tab" data-filter="environment">Environment</button>
+        <button class="filter-tab" data-filter="character">Character</button>
+      </div>
+
+      <div class="grid-wrapper">
+        <div class="grid-3" id="projects-grid">
+
+          <!-- Chandrayaan -->
+          <div class="card" data-category="3d-art">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/chandrayaan1.jpeg" alt="Blender 3D render of Chandrayaan-3 lunar lander — front angle showing landing legs and solar panels" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/chandrayaan2.jpeg" alt="Chandrayaan-3 lander render — side profile with textured surface and mission decals" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
             </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
-        <div class="card-content">
-          <h3>Chandrayaan Lander</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">3D Modeling</span>
-            <span class="tech-tag">Texturing</span>
-          </div>
-          <p>Detailed 3D recreation of India's Chandrayaan-3 lunar lander, featuring accurate proportions, realistic materials, and mission-inspired texturing.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
-        </div>
-      </div>
-
-      <!-- NEW: GenZ Character Card (inserted after Chandrayaan Lander) -->
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiperGenZ">
-            <div class="swiper-wrapper">
-              <!-- Final Renders (kept) -->
-              <div class="swiper-slide"><img src="blender/B_images/GenZRender1.png" alt="Gen Z Character Render 1"></div>
-              <div class="swiper-slide"><img src="blender/B_images/GenZRender2.png" alt="Gen Z Character Render 2"></div>
-              <div class="swiper-slide"><img src="blender/B_images/GenZRender3.png" alt="Gen Z Character Render 3"></div>
+            <div class="card-body">
+              <h3>Chandrayaan Lander</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">3D Modeling</span><span class="tag">Texturing</span>
+              </div>
+              <p>Detailed 3D recreation of India's Chandrayaan-3 lunar lander with accurate proportions and mission-inspired materials.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
             </div>
-            <div class="swiper-pagination"></div>
           </div>
-        </div>
 
-        <div class="card-content">
-          <h3>Astra – The Gen Z Explorer</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Character Modeling</span>
-            <span class="tech-tag">Texturing</span>
-            <span class="tech-tag">Stylized Realism</span>
-          </div>
-          <p>A semi-realistic 3D character inspired by Gen Z fashion and digital culture. The project features detailed modeling of clothing elements, expressive stylized proportions, and physically-based rendering to capture a soft, modern aesthetic.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
-        </div>
-      </div>
-
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper2">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/horror1.jpeg" alt="Haunted Hospital 1"></div>
-              <div class="swiper-slide"><img src="blender/B_images/horror2.jpeg" alt="Haunted Hospital 2"></div>
-              <div class="swiper-slide"><img src="blender/B_images/horror3.jpeg" alt="Haunted Hospital 3"></div>
-              <div class="swiper-slide"><img src="blender/B_images/horror4.jpeg" alt="Haunted Hospital 4"></div>
-              <div class="swiper-slide"><img src="blender/B_images/horror5.jpeg" alt="Haunted Hospital 5"></div>
-              <div class="swiper-slide"><img src="blender/B_images/horror6.jpeg" alt="Haunted Hospital 6"></div>
+          <!-- Gen Z Character -->
+          <div class="card" data-category="character">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/GenZRender1.png" alt="Astra character full-body front render — Gen Z styled 3D model with modern streetwear" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/GenZRender2.png" alt="Astra character three-quarter view showing clothing detail and PBR materials" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/GenZRender3.png" alt="Astra character close-up face and upper body render with soft studio lighting" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
             </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
-        <div class="card-content">
-          <h3>Haunted Hospital</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Environment Design</span>
-            <span class="tech-tag">Atmospheric Lighting</span>
-          </div>
-          <p>Atmospheric horror environment featuring detailed props, eerie lighting setups, and carefully crafted mood to create an unsettling hospital setting.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
-        </div>
-      </div>
-
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper3">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/spaceship1.jpeg" alt="Nebula Starship 1"></div>
-              <div class="swiper-slide"><img src="blender/B_images/spaceship2.jpeg" alt="Nebula Starship 2"></div>
-              <div class="swiper-slide"><img src="blender/B_images/spaceship3.jpeg" alt="Nebula Starship 3"></div>
-              <div class="swiper-slide"><img src="blender/B_images/spaceship4.jpeg" alt="Nebula Starship 4"></div>
+            <div class="card-body">
+              <h3>Astra — The Gen Z Explorer</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Character</span><span class="tag">PBR</span>
+              </div>
+              <p>Semi-realistic 3D character inspired by Gen Z fashion. Features detailed clothing, expressive proportions, and physically-based rendering.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
             </div>
-            <div class="swiper-pagination"></div>
           </div>
-        </div>
-        <div class="card-content">
-          <h3>Nebula Starship</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Sci-Fi Design</span>
-            <span class="tech-tag">Emission Materials</span>
-          </div>
-          <p>Futuristic spacecraft design with glowing propulsion systems, detailed hull texturing, and sci-fi aesthetic perfect for space exploration narratives.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
-        </div>
-      </div>
 
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper4">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/car1.jpeg" alt="Toon Racer 1"></div>
-              <div class="swiper-slide"><img src="blender/B_images/car2.jpeg" alt="Toon Racer 2"></div>
+          <!-- Haunted Hospital -->
+          <div class="card" data-category="environment">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/horror1.jpeg" alt="Haunted hospital corridor render — flickering overhead lights and cracked tiles" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/horror2.jpeg" alt="Abandoned hospital room with broken bed and eerie green atmospheric lighting" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/horror3.jpeg" alt="Hospital stairwell environment — dark volumetric fog and peeling walls" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/horror4.jpeg" alt="Operating theatre 3D scene with dramatic shadows and horror atmosphere" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/horror5.jpeg" alt="Reception area render — overturned furniture and broken windows with moonlight" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/horror6.jpeg" alt="Hospital exterior night render — broken signage and overgrown entrance" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
             </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
-        <div class="card-content">
-          <h3>Toon Racer</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Stylized Design</span>
-            <span class="tech-tag">Cartoon Shading</span>
-          </div>
-          <p>Stylized cartoon vehicle with exaggerated proportions, vibrant colors, and playful design elements perfect for arcade-style racing games.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')">Download Model</a>
-        </div>
-      </div>
-
-      <!-- Move these four cards here, before the animation videos -->
-      <!-- New Card: Desert Monolith -->
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper5">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/desert.jpeg" alt="Desert Monolith"></div>
+            <div class="card-body">
+              <h3>Haunted Hospital</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Environment</span><span class="tag">Lighting</span>
+              </div>
+              <p>Atmospheric horror environment with detailed props, eerie lighting setups, and carefully crafted mood to create unsettling tension.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
             </div>
-            <div class="swiper-pagination"></div>
           </div>
-        </div>
-        <div class="card-content">
-          <h3>Desert Monolith</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Environment</span>
-            <span class="tech-tag">3D Modeling</span>
-          </div>
-          <p>A mysterious rock formation set in a sun-baked desert, ideal for environment backgrounds and scenes.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-        </div>
-      </div>
 
-      <!-- New Card: Wicked Witch -->
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper6">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/Witch.jpeg" alt="Wicked Witch"></div>
+          <!-- Nebula Starship -->
+          <div class="card" data-category="3d-art">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/spaceship1.jpeg" alt="Sci-fi starship front render — glowing engine nacelles and metallic hull plating" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/spaceship2.jpeg" alt="Nebula starship side profile with emission materials and teal thruster glow" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/spaceship3.jpeg" alt="Starship cockpit area close-up — detailed panel texturing and lighting" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/spaceship4.jpeg" alt="Starship in space environment — dramatic nebula backdrop and lens flare" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
             </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
-        <div class="card-content">
-          <h3>Wicked Witch</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Character</span>
-            <span class="tech-tag">Stylized</span>
-          </div>
-          <p>A stylized Halloween witch character, perfect for spooky animations or seasonal projects.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-        </div>
-      </div>
-
-      <!-- New Card: Pumpkin Night -->
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper7">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/halloween.jpeg" alt="Pumpkin Night"></div>
+            <div class="card-body">
+              <h3>Nebula Starship</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Sci-Fi</span><span class="tag">Emission</span>
+              </div>
+              <p>Futuristic spacecraft with glowing propulsion systems, detailed hull texturing, and sci-fi aesthetic for space exploration narratives.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
             </div>
-            <div class="swiper-pagination"></div>
           </div>
-        </div>
-        <div class="card-content">
-          <h3>Pumpkin Night</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Halloween</span>
-            <span class="tech-tag">Lighting</span>
-          </div>
-          <p>A festive Halloween pumpkin scene with glowing lights and horror vibes.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-        </div>
-      </div>
 
-      <!-- New Card: Retro Clock -->
-      <div class="card fade-in">
-        <div class="media-container">
-          <div class="swiper projectSwiper8">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide"><img src="blender/B_images/clock.jpeg" alt="Retro Clock"></div>
+          <!-- Toon Racer -->
+          <div class="card" data-category="3d-art">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/car1.jpeg" alt="Toon racer car front view — stylized cartoon vehicle with exaggerated proportions and bold colors" loading="lazy"></div>
+                  <div class="swiper-slide"><img src="blender/B_images/car2.jpeg" alt="Toon racer car three-quarter rear view — cartoon shading and vibrant paint finish" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
             </div>
-            <div class="swiper-pagination"></div>
+            <div class="card-body">
+              <h3>Toon Racer</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Stylized</span><span class="tag">Cartoon</span>
+              </div>
+              <p>Stylized cartoon vehicle with exaggerated proportions, vibrant colors, and playful design perfect for arcade-style racing games.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
           </div>
-        </div>
-        <div class="card-content">
-          <h3>Retro Clock</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Product</span>
-            <span class="tech-tag">Vintage</span>
-          </div>
-          <p>A vintage-style clock model, great for interior renders and time-themed projects.</p>
-          <a class="btn btn-secondary" href="#" onclick="alert('Model not available for download now.')" >Download Model</a>
-        </div>
-      </div>
 
-      <div class="card fade-in">
-        <div class="media-container">
-          <video controls class="video-container">
-            <source src="blender/B_videos/Plane animation.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="card-content">
-          <h3>Toy Plane Adventure</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Animation</span>
-            <span class="tech-tag">Rigging</span>
+          <!-- Desert Monolith -->
+          <div class="card" data-category="environment">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/desert.jpeg" alt="Desert monolith Blender render — tall sandstone rock formation under a warm sunset sky" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Desert Monolith</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Environment</span><span class="tag">Landscape</span>
+              </div>
+              <p>Mysterious rock formation in a sun-baked desert landscape, ideal for environment backgrounds and cinematic scenes.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
           </div>
-          <p>Dynamic animation showcasing a vintage biplane performing aerial maneuvers, demonstrating advanced rigging and keyframe animation techniques.</p>
-        </div>
-      </div>
-      <div class="card fade-in">
-        <div class="media-container">
-          <video controls class="video-container">
-            <source src="blender/B_videos/perfume aniamtion.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="card-content">
-          <h3>Perfume Dream</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Blender</span>
-            <span class="tech-tag">Product Visualization</span>
-            <span class="tech-tag">Motion Graphics</span>
-          </div>
-          <p>Elegant product animation featuring sophisticated lighting, smooth camera movements, and premium visual effects for commercial presentation.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="games" class="section">
-    <div class="section-header">
-      <h2 class="section-title">Game Development</h2>
-      <p class="section-subtitle">Interactive experiences built with Unity, featuring innovative gameplay mechanics and immersive worlds</p>
-    </div>
-    
-    <div class="games-grid">
-      <div class="card fade-in">
-        <div class="media-container">
-          <video controls class="video-container">
-            <source src="Unity/DeathNightZombie.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="card-content">
-          <h3>Deathnight Zombies</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Unity</span>
-            <span class="tech-tag">C#</span>
-            <span class="tech-tag">NavMesh AI</span>
-            <span class="tech-tag">FPS</span>
+          <!-- Wicked Witch -->
+          <div class="card" data-category="character">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/Witch.jpeg" alt="Stylized Halloween witch 3D character — pointy hat, flowing robes, and dramatic rim lighting" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Wicked Witch</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Character</span><span class="tag">Stylized</span>
+              </div>
+              <p>A stylized Halloween witch character perfect for spooky animations, seasonal projects, or fantasy game pipelines.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
           </div>
-          <p>Intense first-person zombie survival game featuring intelligent AI enemies using NavMesh pathfinding, dynamic health systems, and immersive combat mechanics in a post-apocalyptic setting.</p>
-          <a class="btn btn-primary" href="https://github.com/Code-buddddY/DeathNight-Zombies" target="_blank">View Source Code</a>
-        </div>
-      </div>
 
-      <div class="card fade-in">
-        <div class="media-container">
-          <video controls class="video-container">
-            <source src="Unity/SnowmanRunner.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="card-content">
-          <h3>Snowman Runner</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Unity</span>
-            <span class="tech-tag">Endless Runner</span>
-            <span class="tech-tag">Quiz System</span>
+          <!-- Pumpkin Night -->
+          <div class="card" data-category="environment">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/halloween.jpeg" alt="Halloween pumpkin scene — carved jack-o-lantern with glowing orange light against a dark night backdrop" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Pumpkin Night</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Halloween</span><span class="tag">Lighting</span>
+              </div>
+              <p>Festive Halloween pumpkin scene with glowing warm lights, moody atmosphere, and cinematic horror vibes.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
           </div>
-          <p>Innovative endless runner combining traditional obstacle avoidance with educational quiz elements. Features dynamic size-changing mechanics and interactive decision-making gameplay.</p>
-          <a class="btn btn-primary" href="https://github.com/Code-buddddY/Snowman-Runner" target="_blank">View Source Code</a>
-        </div>
-      </div>
 
-      <div class="card fade-in">
-        <div class="media-container">
-          <video controls class="video-container">
-            <source src="Unity/ARplanets.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="card-content">
-          <h3>AR Planets</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Unity</span>
-            <span class="tech-tag">ARCore</span>
-            <span class="tech-tag">Educational</span>
+          <!-- Retro Clock -->
+          <div class="card" data-category="3d-art">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/clock.jpeg" alt="Vintage retro clock 3D model — brass casing, Roman numerals, and aged patina material" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Retro Clock</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Product</span><span class="tag">Vintage</span>
+              </div>
+              <p>Vintage-style clock model with meticulous material detailing, ideal for interior renders and time-themed projects.</p>
+              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
           </div>
-          <p>Immersive augmented reality solar system explorer allowing users to interact with 3D planetary models, featuring intuitive touch controls and educational content delivery.</p>
-          <a class="btn btn-primary" href="https://github.com/yourusername/ar-planets" target="_blank">View Source Code</a>
-        </div>
-      </div>
 
-      <div class="card fade-in">
-        <div class="media-container">
-          <video controls class="video-container">
-            <source src="Unity/basketballgame.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="card-content">
-          <h3>Basket Blast 3D</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Unity</span>
-            <span class="tech-tag">Physics</span>
-            <span class="tech-tag">3D Sports</span>
+          <!-- Toy Plane Animation -->
+          <div class="card" data-category="animation">
+            <div class="card-media">
+              <video controls preload="metadata" aria-label="Animation of a vintage toy biplane performing aerial maneuvers — Blender rigging and keyframe demo">
+                <source src="blender/B_videos/Plane animation.mp4" type="video/mp4">
+                <track kind="captions" label="English" srclang="en" src="">
+              </video>
+            </div>
+            <div class="card-body">
+              <h3>Toy Plane Adventure</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Animation</span><span class="tag">Rigging</span>
+              </div>
+              <p>Dynamic animation showcasing a vintage biplane performing aerial maneuvers with advanced rigging and keyframe techniques.</p>
+            </div>
           </div>
-          <p>Challenging basketball simulation with realistic physics, variable difficulty modes, environmental effects like wind, and precision-based scoring mechanics.</p>
-          <a class="btn btn-primary" href="https://github.com/Code-buddddY/Basket-Blast-3D" target="_blank">View Source Code</a>
-        </div>
-      </div>
 
-      <div class="card fade-in">
-        <div class="media-container">
-          <video controls class="video-container">
-            <source src="Unity/PUN_multiplayer.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="card-content">
-          <h3>PUN Multiplayer</h3>
-          <div class="tech-stack">
-            <span class="tech-tag">Unity</span>
-            <span class="tech-tag">Photon PUN</span>
-            <span class="tech-tag">Networking</span>
+          <!-- Perfume Animation -->
+          <div class="card" data-category="animation">
+            <div class="card-media">
+              <video controls preload="metadata" aria-label="Perfume bottle product animation — smooth camera movements, studio lighting, and motion graphics in Blender">
+                <source src="blender/B_videos/perfume aniamtion.mp4" type="video/mp4">
+                <track kind="captions" label="English" srclang="en" src="">
+              </video>
+            </div>
+            <div class="card-body">
+              <h3>Perfume Dream</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Product Viz</span><span class="tag">Motion</span>
+              </div>
+              <p>Elegant product animation with sophisticated lighting, smooth camera movements, and premium visual effects for commercial presentation.</p>
+            </div>
           </div>
-          <p>Real-time multiplayer framework demonstration featuring room creation, matchmaking, and synchronized gameplay across multiple clients using Photon Unity Networking.</p>
-          <a class="btn btn-primary" href="https://github.com/Code-buddddY/Multiplayer_Unity_PUN_Demo" target="_blank">View Source Code</a>
+
         </div>
       </div>
     </div>
   </section>
 
-  <section id="about" class="section">
-    <div class="section-header">
-      <h2 class="section-title">About Me</h2>
-    </div>
-    
-    <div class="about-content">
-      <p class="about-text">
-        I'm a passionate creator at the intersection of art and technology, specializing in 3D modeling, game development, and interactive experiences. With expertise in industry-standard tools and a keen eye for detail, I bring digital worlds to life.
-      </p>
-      
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-icon">🎨</div>
-          <h3>3D Modeling</h3>
-          <p>Blender</p>
+  <!-- ═══ GAMES ═══ -->
+  <section id="games" class="page-section" style="background: linear-gradient(180deg, var(--c1) 0%, var(--c0) 100%);">
+    <div class="container">
+      <p class="sec-tag">// 02 — Game Dev</p>
+      <h2 class="sec-title">Interactive Worlds</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Interactive experiences built with Unity, featuring innovative gameplay mechanics and immersive design.</p>
+
+      <div class="grid-3">
+
+        <!-- Deathnight -->
+        <div class="card">
+          <div class="card-media">
+            <video controls preload="metadata" aria-label="Gameplay footage of Deathnight Zombies — Unity FPS game with NavMesh AI enemies and combat mechanics">
+              <source src="Unity/DeathNightZombie.mp4" type="video/mp4">
+              <track kind="captions" label="English" srclang="en" src="">
+            </video>
+          </div>
+          <div class="card-body">
+            <h3>Deathnight Zombies</h3>
+            <div class="tags">
+              <span class="tag">Unity</span><span class="tag">C#</span><span class="tag">NavMesh AI</span><span class="tag">FPS</span>
+            </div>
+            <p>First-person zombie survival with intelligent NavMesh AI enemies, dynamic health systems, and immersive combat in a post-apocalyptic world.</p>
+            <a href="https://github.com/Code-buddddY/DeathNight-Zombies" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+          </div>
         </div>
-        <div class="skill-card">
-          <div class="skill-icon">🎮</div>
-          <h3>Game Development</h3>
-          <p>Unity, C#, Game Design</p>
+
+        <!-- Snowman Runner -->
+        <div class="card">
+          <div class="card-media">
+            <video controls preload="metadata" aria-label="Gameplay footage of Snowman Runner — Unity endless runner with quiz mechanics and size-changing obstacles">
+              <source src="Unity/SnowmanRunner.mp4" type="video/mp4">
+              <track kind="captions" label="English" srclang="en" src="">
+            </video>
+          </div>
+          <div class="card-body">
+            <h3>Snowman Runner</h3>
+            <div class="tags">
+              <span class="tag">Unity</span><span class="tag">Endless Runner</span><span class="tag">Quiz</span>
+            </div>
+            <p>Innovative endless runner blending obstacle avoidance with educational quiz mechanics and dynamic size-changing gameplay.</p>
+            <a href="https://github.com/Code-buddddY/Snowman-Runner" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+          </div>
         </div>
-        <div class="skill-card">
-          <div class="skill-icon">📱</div>
-          <h3>AR/VR</h3>
-          <p>ARCore, Mixed Reality</p>
+
+        <!-- AR Planets -->
+        <div class="card">
+          <div class="card-media">
+            <video controls preload="metadata" aria-label="Demo of AR Planets — Unity ARCore app placing interactive 3D solar system models in augmented reality">
+              <source src="Unity/ARplanets.mp4" type="video/mp4">
+              <track kind="captions" label="English" srclang="en" src="">
+            </video>
+          </div>
+          <div class="card-body">
+            <h3>AR Planets</h3>
+            <div class="tags">
+              <span class="tag">Unity</span><span class="tag">ARCore</span><span class="tag">Educational</span>
+            </div>
+            <p>Augmented reality solar system explorer with interactive 3D planetary models, touch controls, and educational content delivery.</p>
+            <a href="https://github.com/Code-buddddY" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+          </div>
         </div>
-        <div class="skill-card">
-          <div class="skill-icon">🤖</div>
-          <h3>Machine Learning</h3>
-          <p>Python, TensorFlow, AI Integration, RAG</p>
+
+        <!-- Basketball -->
+        <div class="card">
+          <div class="card-media">
+            <video controls preload="metadata" aria-label="Gameplay footage of Basket Blast 3D — Unity basketball game with realistic physics and wind mechanics">
+              <source src="Unity/basketballgame.mp4" type="video/mp4">
+              <track kind="captions" label="English" srclang="en" src="">
+            </video>
+          </div>
+          <div class="card-body">
+            <h3>Basket Blast 3D</h3>
+            <div class="tags">
+              <span class="tag">Unity</span><span class="tag">Physics</span><span class="tag">3D Sports</span>
+            </div>
+            <p>Basketball simulation with realistic physics, variable difficulty, environmental wind effects, and precision-based scoring mechanics.</p>
+            <a href="https://github.com/Code-buddddY/Basket-Blast-3D" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+          </div>
         </div>
-      </div>
-      
-      <div style="margin-top: 3rem;">
-        <a class="btn btn-primary" href="assets/TusharResume.pdf" download>Download Resume</a>
+
+        <!-- PUN Multiplayer -->
+        <div class="card">
+          <div class="card-media">
+            <video controls preload="metadata" aria-label="Demo of PUN Multiplayer — Unity real-time multiplayer game using Photon Unity Networking with room creation and matchmaking">
+              <source src="Unity/PUN_multiplayer.mp4" type="video/mp4">
+              <track kind="captions" label="English" srclang="en" src="">
+            </video>
+          </div>
+          <div class="card-body">
+            <h3>PUN Multiplayer</h3>
+            <div class="tags">
+              <span class="tag">Unity</span><span class="tag">Photon PUN</span><span class="tag">Networking</span>
+            </div>
+            <p>Real-time multiplayer framework demo featuring room creation, matchmaking, and synchronized gameplay via Photon Unity Networking.</p>
+            <a href="https://github.com/Code-buddddY/Multiplayer_Unity_PUN_Demo" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section id="contact" class="section">
-    <div class="section-header">
-      <h2 class="section-title">Let's Create Together</h2>
-      <p class="section-subtitle">Ready to bring your vision to life? Let's discuss your next project</p>
-    </div>
-    
-    <div class="contact-grid">
-      <div class="contact-card">
-        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📧</div>
-        <h3>Email</h3>
-        <p>tushar2005sbm@gmail.com</p>
-        <br>
-        <a class="btn btn-secondary" href="mailto:tushar2005sbm@gmail.com">Send Message</a>
-      </div>
-      
-      <div class="contact-card">
-        <div style="font-size: 2.5rem; margin-bottom: 1rem;">💻</div>
-        <h3>GitHub</h3>
-        <p>@Code-buddddY</p>
-        <br>
-        <a class="btn btn-secondary" href="https://github.com/Code-buddddY" target="_blank">View Profile</a>
-      </div>
-      
-      <div class="contact-card">
-        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🌐</div>
-        <h3>Portfolio</h3>
-        <p>Explore my work</p>
-        <br>
-        <a class="btn btn-secondary" href="#projects">View Projects</a>
+  <!-- ═══ EXPERIENCE ═══ -->
+  <section id="experience" class="exp-section">
+    <div class="container">
+      <p class="sec-tag">// 03 — Experience</p>
+      <h2 class="sec-title">Work History</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Real-world studio experience shipping games and managing technical art pipelines.</p>
+
+      <div class="exp-list">
+
+        <!-- SoraMinds -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">3D Designer → Junior Technical Artist / Pipeline Engineer</div>
+              <div class="exp-company">SoraMinds LLC · Troy, MI, USA (Remote)</div>
+            </div>
+            <div class="exp-meta">
+              <span class="exp-date">Nov 2025 — May 2026</span>
+              <span class="exp-type">Contract</span>
+            </div>
+          </div>
+          <p class="exp-desc">
+            Transitioned from standalone 3D modeling to managing the entire technical art pipeline between the design team and frontend developers. Applied a semi-realistic, mid-poly design approach for highly optimized web-based AI agents.
+          </p>
+          <ul class="exp-achievements">
+            <li><strong>Web Optimization:</strong> Managed strict draw-call budgets and minimized GLB file sizes for seamless frontend rendering. Executed advanced texture channel-packing (OMR: Occlusion, Metallic, Roughness) to reduce memory bandwidth.</li>
+            <li><strong>Rigging & Animation Pipeline:</strong> Led technical rigging and precision weight painting for character assets. Engineered facial shape keys — eye blinks and complex visemes for lip-sync — and streamlined animation workflows via NLA editor dropdown selections.</li>
+            <li><strong>Cross-Team Bridge:</strong> Acted as the primary technical liaison between the 3D art team and frontend developers to troubleshoot and prevent code-breaking mesh issues.</li>
+            <li><strong>Art Direction:</strong> Maintained a consistent semi-realistic mid-poly aesthetic across all character assets, balancing visual quality with real-time web performance constraints.</li>
+          </ul>
+          <div class="tags" style="margin-bottom:1rem;">
+            <span class="tag">Blender</span><span class="tag">GLB/glTF</span><span class="tag">Shape Keys</span>
+            <span class="tag">NLA Editor</span><span class="tag">Texture Packing</span><span class="tag">Draw Calls</span>
+            <span class="tag">Rigging</span><span class="tag">Weight Painting</span>
+          </div>
+        </div>
+
+        <!-- Yuneko Studios -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Unity Junior Developer & Level Designer</div>
+              <div class="exp-company">Yuneko Studios · Dehradun, Uttarakhand, India (Remote)</div>
+            </div>
+            <div class="exp-meta">
+              <span class="exp-date">Jul 2025 — Oct 2025</span>
+              <span class="exp-type">Internship</span>
+            </div>
+          </div>
+          <p class="exp-desc">
+            Contributed to the 2D platformer "Adventures of Slime" in a hybrid developer + level designer role. Focused on level design, prototyping, and quality assurance from concept through to shipping on Google Play.
+          </p>
+          <ul class="exp-achievements">
+            <li><strong>Architected 40+ levels</strong> for "Adventures of Slime" using Unity, focusing on core gameplay mechanics and progressive environmental challenges.</li>
+            <li><strong>Created 60+ Blender blueprints</strong> to plan spatial design and visualize gameplay flow before implementation.</li>
+            <li><strong>Comprehensive QA process:</strong> Identified and documented 30+ bugs, performance bottlenecks, and gameplay issues through detailed test cases and bug reports.</li>
+            <li><strong>Remote collaboration:</strong> Used an iterative feedback loop and test data to optimize level design and improve player experience directly.</li>
+          </ul>
+          <div class="tags" style="margin-bottom:1rem;">
+            <span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Blender</span>
+            <span class="tag">Level Design</span><span class="tag">QA Testing</span><span class="tag">2D Platformer</span>
+          </div>
+          <a href="https://play.google.com/store/apps/details?id=com.slimegame.yunekostudios" target="_blank" rel="noopener" class="exp-link">
+            ▶ View on Google Play ↗
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
 
+  <!-- ═══ ABOUT ═══ -->
+  <section id="about" class="page-section">
+    <div class="container">
+      <p class="sec-tag">// 04 — About</p>
+      <h2 class="sec-title">Who I Am</h2>
+      <div class="divider"></div>
+
+      <div class="about-wrap">
+        <div>
+          <p class="about-text">
+            I'm a passionate creator at the intersection of art and technology — specializing in 3D modeling, game development, and interactive experiences. With a keen eye for detail and a love for immersive storytelling, I craft digital worlds that resonate.
+          </p>
+          <p class="about-text">
+            From lunar landers in Blender to AR solar systems in Unity, I bring ideas to life across disciplines — blending technical rigor with artistic vision. My studio experience spans level design, technical art pipelines, and web-optimized 3D for AI agents.
+          </p>
+
+          <!-- Software Stack -->
+          <p style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:-.25rem;">Software & Tools</p>
+          <div class="software-strip">
+            <span class="sw-badge"><span class="sw-dot"></span>Blender</span>
+            <span class="sw-badge"><span class="sw-dot"></span>Unity</span>
+            <span class="sw-badge"><span class="sw-dot"></span>Substance Painter</span>
+            <span class="sw-badge"><span class="sw-dot"></span>Krita</span>
+            <span class="sw-badge"><span class="sw-dot"></span>Canva</span>
+            <span class="sw-badge"><span class="sw-dot"></span>C#</span>
+            <span class="sw-badge"><span class="sw-dot"></span>Python</span>
+            <span class="sw-badge"><span class="sw-dot"></span>TensorFlow</span>
+          </div>
+
+          <div style="margin-top:2.25rem;">
+            <a href="assets/TusharResume.pdf" download class="btn btn-gold">Download Résumé</a>
+          </div>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon">🎨</div>
+            <h4>3D Modeling</h4>
+            <p>Blender, PBR, Rigging, Shape Keys, Weight Painting</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🎮</div>
+            <h4>Game Development</h4>
+            <p>Unity, C#, Level Design, NavMesh, PUN</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">📱</div>
+            <h4>AR / VR</h4>
+            <p>ARCore, Mixed Reality, Interactive 3D</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">⚙️</div>
+            <h4>Technical Art</h4>
+            <p>GLB Pipeline, Texture Packing, Web Optimization</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🖌️</div>
+            <h4>Digital Art</h4>
+            <p>Substance Painter, Krita, Canva</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🤖</div>
+            <h4>Machine Learning</h4>
+            <p>Python, TensorFlow, RAG</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact" class="page-section" style="background: var(--c1);">
+    <div class="container">
+      <p class="sec-tag">// 05 — Contact</p>
+      <h2 class="sec-title">Let's Create Together</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Ready to bring your vision to life? Let's talk about your next project.</p>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">📧</div>
+          <h3>Email</h3>
+          <p>tushar2005sbm@gmail.com</p>
+          <a href="mailto:tushar2005sbm@gmail.com" class="btn btn-outline btn-sm">Send Message</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">💻</div>
+          <h3>GitHub</h3>
+          <p>@Code-buddddY</p>
+          <a href="https://github.com/Code-buddddY" target="_blank" rel="noopener" class="btn btn-outline btn-sm">View Profile</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">🔗</div>
+          <h3>LinkedIn</h3>
+          <p>Tushar on LinkedIn</p>
+          <a href="https://www.linkedin.com/in/tushar-0b54a128b/" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Open Profile</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">🌐</div>
+          <h3>Portfolio</h3>
+          <p>Explore all my work</p>
+          <a href="#projects" class="btn btn-outline btn-sm">View Projects</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
   <footer>
-    <div class="footer-content">
-      <p>&copy; 2025 Tushar. Crafted with passion and precision.</p>
-    </div>
+    <p>© <span id="footer-year"></span> Tushar — Crafted with passion and precision.</p>
   </footer>
 
+  <!-- ─── SCRIPTS ─── -->
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+
   <script>
-    // Initialize Swiper for each .swiper element and pause autoplay on hover
-    const swiperOptions = {
-      loop: true,
-      autoplay: {
-        delay: 4000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      effect: 'slide',
-      speed: 800,
-    };
+  /* ─────────────────────────────────────────
+     THREE.JS BACKGROUND — Particle field
+  ───────────────────────────────────────── */
+  (function () {
+    const canvas = document.getElementById('canvas-bg');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
 
-    // Remove old specific loop; create swipers for every .swiper element
-    const swiperInstances = [];
-    document.querySelectorAll('.swiper').forEach(swiperEl => {
-      // only init if there is a wrapper (prevents empty containers)
-      if (!swiperEl.querySelector('.swiper-wrapper')) return;
-      const instance = new Swiper(swiperEl, swiperOptions);
-      swiperInstances.push({el: swiperEl, instance});
-      // pause autoplay while hovering media area (better UX)
-      swiperEl.addEventListener('mouseenter', () => {
-        if (instance.autoplay && instance.autoplay.running) instance.autoplay.stop();
-      });
-      swiperEl.addEventListener('mouseleave', () => {
-        if (instance.autoplay && !instance.autoplay.running) instance.autoplay.start();
-      });
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.z = 60;
+
+    const COUNT = 2800;
+    const geo = new THREE.BufferGeometry();
+    const positions = new Float32Array(COUNT * 3);
+    const sizes = new Float32Array(COUNT);
+    const opacities = new Float32Array(COUNT);
+
+    for (let i = 0; i < COUNT; i++) {
+      positions[i*3]   = (Math.random()-.5)*180;
+      positions[i*3+1] = (Math.random()-.5)*120;
+      positions[i*3+2] = (Math.random()-.5)*80;
+      sizes[i] = Math.random()*2.2+0.4;
+      opacities[i] = Math.random();
+    }
+
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geo.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
+
+    const mat = new THREE.ShaderMaterial({
+      uniforms: { time:{value:0}, color1:{value:new THREE.Color('#c8a96e')}, color2:{value:new THREE.Color('#4dd9c0')} },
+      vertexShader:`
+        attribute float size; attribute float opacity;
+        varying float vOpacity; varying float vMix;
+        uniform float time;
+        void main() {
+          vOpacity=opacity; vMix=(position.x+90.0)/180.0;
+          vec3 pos=position;
+          pos.y+=sin(time*0.3+position.x*0.04)*1.2;
+          pos.x+=cos(time*0.2+position.y*0.05)*0.8;
+          vec4 mvPos=modelViewMatrix*vec4(pos,1.0);
+          gl_PointSize=size*(200.0/-mvPos.z);
+          gl_Position=projectionMatrix*mvPos;
+        }`,
+      fragmentShader:`
+        uniform vec3 color1; uniform vec3 color2;
+        varying float vOpacity; varying float vMix;
+        void main() {
+          float d=distance(gl_PointCoord,vec2(0.5));
+          if(d>0.5)discard;
+          float alpha=smoothstep(0.5,0.0,d)*vOpacity*0.55;
+          vec3 c=mix(color1,color2,vMix);
+          gl_FragColor=vec4(c,alpha);
+        }`,
+      transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
     });
 
-    // Scroll progress indicator
-    window.addEventListener('scroll', () => {
-      const scrolled = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      document.querySelector('.scroll-progress').style.width = scrolled + '%';
+    const mesh = new THREE.Points(geo, mat);
+    scene.add(mesh);
+
+    [{ x:-40,y:20,c:'#3b1f6e',r:22 },{ x:45,y:-18,c:'#0a3d3a',r:18 },{ x:10,y:-30,c:'#1a1040',r:28 }].forEach(n=>{
+      const g=new THREE.SphereGeometry(n.r,8,8);
+      const m=new THREE.MeshBasicMaterial({color:n.c,transparent:true,opacity:.12});
+      const s=new THREE.Mesh(g,m); s.position.set(n.x,n.y,-25); scene.add(s);
     });
 
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
+    const mouse={x:0,y:0};
+    window.addEventListener('mousemove',e=>{ mouse.x=(e.clientX/innerWidth-.5)*2; mouse.y=-(e.clientY/innerHeight-.5)*2; });
+    window.addEventListener('resize',()=>{ renderer.setSize(innerWidth,innerHeight); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); });
+
+    function animate(t) {
+      requestAnimationFrame(animate);
+      mat.uniforms.time.value=t*.001;
+      mesh.rotation.y=t*.00004; mesh.rotation.x=t*.00002;
+      camera.position.x+=(mouse.x*4-camera.position.x)*.04;
+      camera.position.y+=(mouse.y*2-camera.position.y)*.04;
+      renderer.render(scene,camera);
+    }
+    animate(0);
+  })();
+
+  /* ─────────────────────────────────────────
+     THREE.JS HERO — Wireframe torus knot
+  ───────────────────────────────────────── */
+  (function () {
+    const canvas=document.getElementById('hero-gl');
+    if(!canvas)return;
+    const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    const resize=()=>{ const{offsetWidth:w,offsetHeight:h}=canvas.parentElement; renderer.setSize(w,h); camera.aspect=w/h; camera.updateProjectionMatrix(); };
+    const scene=new THREE.Scene();
+    const camera=new THREE.PerspectiveCamera(55,1,0.1,100); camera.position.z=5;
+    const geo=new THREE.TorusKnotGeometry(1.4,.42,180,24,2,3);
+    const mat=new THREE.MeshStandardMaterial({color:0x1a1030,emissive:0x7b72f8,emissiveIntensity:.45,wireframe:false,metalness:.6,roughness:.3});
+    const torus=new THREE.Mesh(geo,mat); scene.add(torus);
+    const wire=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0x4dd9c0,wireframe:true,transparent:true,opacity:.12})); scene.add(wire);
+    scene.add(new THREE.AmbientLight(0xffffff,.3));
+    const pl1=new THREE.PointLight(0xc8a96e,3,20); pl1.position.set(4,3,3); scene.add(pl1);
+    const pl2=new THREE.PointLight(0x4dd9c0,2.5,18); pl2.position.set(-4,-3,2); scene.add(pl2);
+    resize(); window.addEventListener('resize',resize);
+    function animate(t){ requestAnimationFrame(animate); const s=t*.001; torus.rotation.x=s*.35; torus.rotation.y=s*.55; wire.rotation.copy(torus.rotation); renderer.render(scene,camera); }
+    animate(0);
+  })();
+
+  /* ─────────────────────────────────────────
+     SWIPER
+  ───────────────────────────────────────── */
+  document.querySelectorAll('[data-swiper]').forEach(el=>{
+    new Swiper(el,{ loop:true, autoplay:{delay:3600,disableOnInteraction:false}, pagination:{el:el.querySelector('.swiper-pagination'),clickable:true}, speed:700 });
+  });
+
+  /* ─────────────────────────────────────────
+     FILTER TABS
+  ───────────────────────────────────────── */
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const projectCards = document.querySelectorAll('#projects-grid .card');
+
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      filterTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+
+      projectCards.forEach(card => {
+        const cat = card.dataset.category;
+        const show = filter === 'all' || cat === filter;
+        if (show) {
+          card.style.display = '';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+          card.style.position = '';
+          card.style.pointerEvents = '';
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            if (tab.dataset.filter !== 'all' && card.dataset.category !== tab.dataset.filter) {
+              card.style.display = 'none';
+            }
+          }, 300);
         }
       });
     });
+  });
 
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
+  /* ─────────────────────────────────────────
+     SCROLL — progress + header + card reveal
+  ───────────────────────────────────────── */
+  const scrollBar = document.getElementById('scroll-bar');
+  const header = document.getElementById('header');
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
+  window.addEventListener('scroll', () => {
+    const pct = scrollY / (document.body.scrollHeight - innerHeight) * 100;
+    scrollBar.style.width = pct + '%';
+    header.classList.toggle('scrolled', scrollY > 60);
+  });
 
-    // Observe all cards for animation
-    document.querySelectorAll('.card').forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(30px)';
-      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      observer.observe(card);
-    });
-
-    // Header background change on scroll
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
-      if (window.scrollY > 100) {
-        header.style.background = 'rgba(15, 15, 35, 0.95)';
-      } else {
-        header.style.background = 'rgba(15, 15, 35, 0.8)';
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
       }
     });
+  }, { threshold: 0.08 });
 
-    // Mobile menu toggle
-    const hamburger = document.getElementById('hamburger-menu');
-    const nav = document.getElementById('main-nav');
-    hamburger.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      hamburger.classList.toggle('active');
+  document.querySelectorAll('.card, .exp-card').forEach(c => io.observe(c));
+
+  /* ─────────────────────────────────────────
+     NAV — hamburger
+  ───────────────────────────────────────── */
+  const ham = document.getElementById('ham');
+  const nav = document.getElementById('nav');
+  ham.addEventListener('click', () => { ham.classList.toggle('open'); nav.classList.toggle('open'); });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); nav.classList.remove('open'); }));
+  document.addEventListener('click', e => { if (!nav.contains(e.target) && !ham.contains(e.target)) { ham.classList.remove('open'); nav.classList.remove('open'); } });
+
+  /* ─────────────────────────────────────────
+     SMOOTH SCROLL
+  ───────────────────────────────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
-    // Optional: close nav on link click (mobile)
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 900) {
-          nav.classList.remove('open');
-          hamburger.classList.remove('active');
-        }
-      });
+  });
+
+  /* ─────────────────────────────────────────
+     CUSTOM CURSOR
+  ───────────────────────────────────────── */
+  (function(){
+    if(!window.matchMedia('(pointer: fine)').matches)return;
+    const dot=document.getElementById('cursor-dot');
+    const ring=document.getElementById('cursor-ring');
+    const body=document.body;
+    let mx=-200,my=-200,rx=-200,ry=-200,lastTrail=0;
+    const HOVER='a,button,.btn,.card,.skill-card,.contact-card,.ham,.nav-link,[onclick],.exp-card,.sw-badge,.filter-tab';
+
+    window.addEventListener('mousemove',e=>{
+      mx=e.clientX; my=e.clientY;
+      dot.style.left=mx+'px'; dot.style.top=my+'px';
+      const now=performance.now();
+      if(now-lastTrail>38){lastTrail=now;spawnTrail(mx,my);}
     });
-    // Optional: close nav on outside click
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 900 && !nav.contains(e.target) && !hamburger.contains(e.target)) {
-        nav.classList.remove('open');
-        hamburger.classList.remove('active');
+
+    (function tick(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(tick); })();
+
+    document.addEventListener('mouseover',e=>{ if(e.target.closest(HOVER))body.classList.add('cursor-hover'); });
+    document.addEventListener('mouseout',e=>{ if(e.target.closest(HOVER))body.classList.remove('cursor-hover'); });
+    document.addEventListener('mousedown',()=>{ body.classList.add('cursor-click'); spawnClickBurst(mx,my); });
+    document.addEventListener('mouseup',()=>body.classList.remove('cursor-click'));
+    document.addEventListener('mouseleave',()=>{ dot.style.opacity='0'; ring.style.opacity='0'; });
+    document.addEventListener('mouseenter',()=>{ dot.style.opacity='1'; ring.style.opacity='1'; });
+
+    function spawnTrail(x,y){
+      const size=Math.random()*5+2,p=document.createElement('div');
+      p.className='cursor-trail';
+      const isGold=Math.random()>.5;
+      p.style.cssText=`left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${isGold?'rgba(200,169,110,.7)':'rgba(77,217,192,.55)'};animation-duration:${Math.random()*.25+.4}s;`;
+      document.body.appendChild(p); p.addEventListener('animationend',()=>p.remove());
+    }
+    function spawnClickBurst(x,y){
+      for(let i=0;i<7;i++){
+        const angle=(i/7)*Math.PI*2,dist=Math.random()*28+14,size=Math.random()*4+2;
+        const p=document.createElement('div'); p.className='cursor-trail';
+        p.style.cssText=`left:${x+Math.cos(angle)*dist}px;top:${y+Math.sin(angle)*dist}px;width:${size}px;height:${size}px;background:rgba(240,208,138,.85);animation-duration:${Math.random()*.2+.35}s;`;
+        document.body.appendChild(p); p.addEventListener('animationend',()=>p.remove());
       }
+    }
+  })();
+
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  /* ─────────────────────────────────────────
+     THEME TOGGLE
+  ───────────────────────────────────────── */
+  (function() {
+    const btn  = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    // Restore saved preference
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') html.classList.add('light');
+
+    btn.addEventListener('click', () => {
+      const isLight = html.classList.toggle('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
-
-    // Mobile menu toggle (if needed)
-    const createMobileMenu = () => {
-      if (window.innerWidth <= 768) {
-        // Add mobile menu functionality here if needed
-        console.log('Mobile view detected');
-      }
-    };
-
-    window.addEventListener('resize', createMobileMenu);
-    createMobileMenu();
+  })();
   </script>
 </body>
 </html>
