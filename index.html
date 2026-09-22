@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tushar — 3D Artist & Game Developer</title>
 
+  <!--
+    Applies the saved theme (if any) to <html> BEFORE the page paints.
+    Without this, the page always renders dark first, then flips to light
+    a moment later for returning visitors who chose light mode — a visible
+    flash of the wrong theme (FOUC). This must stay inline and stay at the
+    very top of <head>, ahead of the stylesheet, to run in time.
+  -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('theme') === 'light') {
+          document.documentElement.classList.add('light');
+        }
+      } catch (e) { /* localStorage unavailable (privacy mode, etc.) — default to dark */ }
+    })();
+  </script>
+
   <!-- SEO & description -->
   <meta name="description" content="Tushar is a 3D artist and game developer specialising in Blender modeling, Unity game development, ARCore experiences, and interactive storytelling.">
   <meta name="author" content="Tushar">
@@ -30,7 +47,7 @@
   <meta name="twitter:image"       content="https://tushar.dev/assets/og-preview.jpg">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2306060e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='700' fill='%23c8a96e'%3ET%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2306060e'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='5.5' fill='none' stroke='%23c8a96e' stroke-width='1.4' transform='rotate(-24 16 16)'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='5.5' fill='none' stroke='%234dd9c0' stroke-width='1' opacity='.8' transform='rotate(32 16 16)'/%3E%3Cpolygon points='16,7 23,11 25,18 20,25 12,24 7,18 9,11' fill='%231a1030' stroke='%234dd9c0' stroke-width='1'/%3E%3Cpolygon points='16,7 23,11 18,15 9,11' fill='%237b72f8' opacity='.72'/%3E%3Cpolygon points='18,15 25,18 20,25 16,20' fill='%23c8a96e' opacity='.75'/%3E%3Cpolygon points='9,11 18,15 16,20 7,18' fill='%234dd9c0' opacity='.5'/%3E%3C/svg%3E">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -89,8 +106,12 @@
       border-bottom-color: var(--faint);
       backdrop-filter: blur(18px);
     }
-    /* Tone down the particle bg in light mode */
-    html.light #canvas-bg { opacity: .06; filter: saturate(.4); }
+    /* Particle background opacity in light mode. The colors themselves are
+       swapped by JS (see updateParticleTheme in the THREE.js block) because
+       the dark-mode gold/teal are near-white and glow via additive blending —
+       on a light parchment page that combination is nearly invisible no
+       matter what this opacity is set to. .5 here assumes the JS swap runs. */
+    html.light #canvas-bg { opacity: .5; }
 
     /* Hero */
     html.light .hero { background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(160,120,40,.07) 0%, transparent 70%); }
@@ -200,7 +221,7 @@
     /* Scroll bar */
     html.light #scroll-bar { background: linear-gradient(90deg, var(--gold), var(--teal)); }
 
-    /* ─── THEME TOGGLE — clean SVG icon ─── */
+    /* ─── THEME TOGGLE ─── */
     #theme-toggle {
       display: flex; align-items: center; justify-content: center;
       width: 44px; height: 24px;
@@ -238,13 +259,6 @@
       transform: translateX(20px);
       background: linear-gradient(135deg, #a07828, #c49a3c);
     }
-
-    /* SVG icons inside thumb */
-    .toggle-thumb svg { width: 9px; height: 9px; display: block; }
-    .icon-moon { display: block; }
-    .icon-sun  { display: none; }
-    html.light .icon-moon { display: none; }
-    html.light .icon-sun  { display: block; }
 
     /* ─── RESET ─── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -309,17 +323,27 @@
 
     /* ─── HAMBURGER ─── */
     .ham {
-      display: none; flex-direction: column; gap: 5px;
+      display: none; width: 38px; height: 38px;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 4px;
+      padding: 0; border: 1px solid var(--faint);
+      border-radius: 10px; background: var(--c3);
       cursor: pointer; z-index: 600;
+      transition: border-color .25s, background .25s, box-shadow .25s;
+    }
+    .ham:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,169,110,.12);
     }
     .ham span {
-      display: block; width: 24px; height: 2px;
-      background: var(--muted); border-radius: 2px;
+      display: block; width: 18px; height: 2px;
+      background: var(--gold); border-radius: 2px;
       transition: all .3s;
     }
-    .ham.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .ham span:nth-child(2) { width: 12px; background: var(--teal); }
+    .ham.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .ham.open span:nth-child(2) { opacity: 0; }
-    .ham.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .ham.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
     /* ─── HERO ─── */
     .hero {
@@ -477,7 +501,31 @@
     }
     .card-media .swiper, .card-media video { width: 100%; height: 100%; }
     .card-media .swiper-slide img { width: 100%; height: 220px; object-fit: cover; }
+    .card-media .swiper-slide video { width: 100%; height: 220px; object-fit: cover; display: block; }
     .card-media video { object-fit: cover; display: block; }
+
+    /* ─── PORTRAIT-SAFE MEDIA ───
+       For full-body character renders (Sora, Ecobot, Pip, etc.). These
+       renders are tall/portrait-shaped, but the media box above is short
+       and wide, so a plain object-fit:cover crops the head and legs off
+       and leaves only the torso visible. This variant is taller and uses
+       object-fit:contain so the whole figure is always shown, with a
+       softly blurred, scaled-up copy of the same image filling the empty
+       space behind it so it doesn't look letterboxed. */
+    .card-media.portrait { height: 320px; background: var(--c1); }
+    .card-media.portrait .swiper-slide { position: relative; height: 320px; }
+    .portrait-frame { position: relative; width: 100%; height: 320px; overflow: hidden; }
+    .portrait-frame .portrait-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; filter: blur(22px) saturate(1.15) brightness(.55);
+      transform: scale(1.18); opacity: .6;
+    }
+    .portrait-frame .portrait-fg {
+      position: relative; width: 100%; height: 100%;
+      object-fit: contain; object-position: center bottom;
+      z-index: 1;
+    }
+    html.light .portrait-frame .portrait-bg { filter: blur(22px) saturate(1.1) brightness(.85); opacity: .45; }
     .card-body {
       padding: 1.4rem 1.5rem 1.6rem;
       flex: 1; display: flex; flex-direction: column; gap: .75rem;
@@ -498,6 +546,23 @@
       color: #a29af9;
     }
 
+    /* Credit pill — small, low-key attribution for work now live on a client site */
+    .credit-tag {
+      font-family: var(--font-mono);
+      font-size: .68rem; font-weight: 500; letter-spacing: .03em;
+      padding: .22rem .6rem .22rem .5rem; border-radius: 4px;
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: rgba(77,217,192,.1);
+      border: 1px solid rgba(77,217,192,.22);
+      color: var(--teal);
+      width: fit-content;
+    }
+    .credit-tag .credit-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+    }
+    html.light .credit-tag { background: rgba(42,138,120,.08); border-color: rgba(42,138,120,.2); color: var(--teal); }
+
     /* ─── GRID WRAPPER for filter ─── */
     .grid-wrapper { position: relative; }
     .grid-wrapper .grid-3 { position: relative; }
@@ -508,6 +573,94 @@
       background: linear-gradient(90deg, var(--gold), var(--teal));
       border-radius: 2px; margin: 1.5rem 0 2rem;
     }
+
+    /* ─── FLAGSHIP / FEATURED PROJECT ─── */
+    .flagship-section { padding-top: 4rem; padding-bottom: 4rem; }
+    .flagship-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--gold), var(--teal), var(--indigo));
+      background-size: 200% 200%;
+      animation: flagshipGlow 8s ease infinite;
+    }
+    @keyframes flagshipGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .flagship-inner {
+      background: var(--c2);
+      border-radius: 18px;
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2.5rem;
+    }
+    .flagship-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono); font-size: .7rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold2);
+      background: rgba(200,169,110,.12);
+      border: 1px solid rgba(200,169,110,.3);
+      padding: .35rem .8rem; border-radius: 20px;
+      margin-bottom: 1.1rem;
+    }
+    .flagship-media {
+      position: relative; border-radius: 14px; overflow: hidden;
+      background: var(--c1); min-height: 260px;
+    }
+    .flagship-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .flagship-title {
+      font-family: var(--font-head); font-size: 1.9rem; font-weight: 800;
+      letter-spacing: -.02em; margin-bottom: .85rem; color: var(--text);
+    }
+    .flagship-desc { font-size: .95rem; color: var(--muted); font-weight: 300; line-height: 1.75; margin-bottom: 1.25rem; }
+    .flagship-info .tags { margin-bottom: 1.5rem; }
+    .alien-grid-label {
+      font-family: var(--font-mono); font-size: .68rem; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: .75rem;
+    }
+    .alien-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: .65rem;
+    }
+    .alien-thumb {
+      position: relative; border: 1px solid var(--faint); border-radius: 10px;
+      overflow: hidden; aspect-ratio: 1 / 1; background: var(--c1);
+      cursor: pointer; padding: 0;
+      transition: border-color .25s, transform .25s;
+    }
+    .alien-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .alien-thumb:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .alien-thumb .alien-label {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      font-family: var(--font-mono); font-size: .62rem; text-align: center;
+      color: #fff; background: rgba(0,0,0,.55); padding: .2rem 0;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(4,4,10,.92);
+      display: none; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem; padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: min(92vw, 900px); max-height: 72vh; width: auto; border-radius: 10px; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+    .lightbox-caption { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); letter-spacing: .05em; }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 1.8rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--c2); border: 1px solid var(--faint); color: var(--text);
+      font-size: 1.3rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    html.light .flagship-inner { background: var(--c2); }
+    html.light .alien-thumb { border-color: var(--faint); }
+    html.light .lightbox { background: rgba(245,240,232,.94); }
+    html.light .lightbox-close { background: var(--c2); border-color: var(--faint); }
 
     /* ─── ABOUT ─── */
     .about-wrap {
@@ -708,12 +861,16 @@
       .exp-card { padding: 1.5rem 1.75rem; }
       .exp-header { flex-direction: column; }
       .exp-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .flagship-inner { grid-template-columns: 1fr; }
+      .flagship-media { min-height: 220px; }
     }
     @media (max-width: 600px) {
       .grid-3 { grid-template-columns: 1fr; }
       .skills-grid { grid-template-columns: 1fr; }
       .stats-strip { grid-template-columns: 1fr 1fr; }
       header { padding: 1rem 1.25rem; }
+      .flagship-inner { padding: 1.5rem; }
+      .alien-grid { grid-template-columns: repeat(3, 1fr); gap: .5rem; }
     }
 
     /* ─── CUSTOM CURSOR ─── */
@@ -746,6 +903,12 @@
       }
       @keyframes trailFade { 0% { opacity: .55; } 100% { opacity: 0; transform: translate(-50%, -60%) scale(0); } }
     }
+
+    /* ─── REDUCED MOTION ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+      #canvas-bg, #hero-gl { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -759,6 +922,7 @@
   <header id="header">
     <div class="logo">Tushar.dev</div>
     <nav id="nav">
+      <a href="#flagship" class="nav-link">Flagship</a>
       <a href="#projects" class="nav-link">Projects</a>
       <a href="#games" class="nav-link">Games</a>
       <a href="#experience" class="nav-link">Experience</a>
@@ -766,31 +930,16 @@
       <a href="#contact" class="nav-link">Contact</a>
     </nav>
     <div class="header-right">
-      <button id="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme">
-        <span class="toggle-thumb">
-          <!-- Moon icon (dark mode) -->
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="#0a0805" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <!-- Sun icon (light mode) -->
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="#faf7f2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-        </span>
+      <button id="theme-toggle" aria-label="Toggle light/dark theme" aria-pressed="false" title="Toggle theme">
+        <span class="toggle-thumb" aria-hidden="true"></span>
       </button>
-      <button class="ham" id="ham" aria-label="Toggle menu">
+      <button class="ham" id="ham" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
+
+  <main>
 
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="home">
@@ -800,7 +949,7 @@
       <h1>Design.<br>Develop.<br>Play.</h1>
       <p class="hero-sub">Crafting immersive worlds through 3D modeling, animation, and interactive game experiences.</p>
       <div class="hero-cta">
-        <a href="#projects" class="btn btn-gold">View Work</a>
+        <a href="#flagship" class="btn btn-gold">View Flagship Project</a>
         <a href="#contact" class="btn btn-outline">Get In Touch</a>
       </div>
     </div>
@@ -814,13 +963,84 @@
   <section class="page-section" style="padding-top: 0; padding-bottom: 3rem;">
     <div class="container">
       <div class="stats-strip">
-        <div class="stat"><div class="stat-num">10+</div><div class="stat-label">3D Models</div></div>
+        <div class="stat"><div class="stat-num">15+</div><div class="stat-label">3D Models</div></div>
         <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Games Built</div></div>
         <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Levels Designed</div></div>
-        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Studios Worked</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Studios Worked</div></div>
       </div>
     </div>
   </section>
+
+  <!-- ═══ FLAGSHIP / FEATURED PROJECT ═══ -->
+  <!--
+    TODO (Tushar): This section is deliberately built to stand apart from the
+    filterable grid below, since it's your biggest piece of work. Replace the
+    placeholder title/description/alien names and swap in your real
+    image + video paths. See the chat reply for 3 alternative ways to present
+    this project if you'd like a different treatment.
+  -->
+  <section id="flagship" class="page-section flagship-section">
+    <div class="container">
+      <p class="sec-tag">// 00 — Flagship</p>
+      <h2 class="sec-title">Signature Project</h2>
+      <div class="divider"></div>
+
+      <div class="flagship-card">
+        <div class="flagship-inner">
+          <div class="flagship-media">
+            <video controls muted loop playsinline preload="metadata"
+                   poster="blender/B_images/alien-poster.png"
+                   aria-label="Showcase reel of a six-alien creature collection and their shared biome environment">
+              <source src="blender/B_videos/AlienBiomeShowcase.mp4" type="video/mp4">
+              <track kind="captions" label="English" srclang="en" src="">
+            </video>
+          </div>
+          <div class="flagship-info">
+            <span class="flagship-badge">★ Flagship Project</span>
+            <h3 class="flagship-title"><!-- TODO: project name -->Alien Biome Collection</h3>
+            <p class="flagship-desc">
+              <!-- TODO: replace with your real project description -->
+              A set of six original alien creature designs built around a single shared
+              biome environment — from concept and modeling through texturing, and
+              a full environment build tying every creature to one cohesive world.
+            </p>
+            <div class="tags">
+              <span class="tag">Blender</span><span class="tag">Creature Design</span>
+              <span class="tag">Environment Art</span><span class="tag">World Building</span>
+            </div>
+            <p class="alien-grid-label">The Six Aliens</p>
+            <div class="alien-grid">
+              <button type="button" class="alien-thumb" data-full="blender/B_images/alien1.jpeg" data-name="Alien 01 — TODO name">
+                <img src="blender/B_images/alien1.png" alt="Alien creature design 1 from the biome collection — click to view full size" loading="lazy">
+              </button>
+              <button type="button" class="alien-thumb" data-full="blender/B_images/alien2.jpeg" data-name="Alien 02 — TODO name">
+                <img src="blender/B_images/alien2.png" alt="Alien creature design 2 from the biome collection — click to view full size" loading="lazy">
+              </button>
+              <button type="button" class="alien-thumb" data-full="blender/B_images/alien3.jpeg" data-name="Alien 03 — TODO name">
+                <img src="blender/B_images/alien3.png" alt="Alien creature design 3 from the biome collection — click to view full size" loading="lazy">
+              </button>
+              <button type="button" class="alien-thumb" data-full="blender/B_images/alien4.jpeg" data-name="Alien 04 — TODO name">
+                <img src="blender/B_images/alien4.png" alt="Alien creature design 4 from the biome collection — click to view full size" loading="lazy">
+              </button>
+              <button type="button" class="alien-thumb" data-full="blender/B_images/alien5.jpeg" data-name="Alien 05 — TODO name">
+                <img src="blender/B_images/alien5.png" alt="Alien creature design 5 from the biome collection — click to view full size" loading="lazy">
+              </button>
+              <button type="button" class="alien-thumb" data-full="blender/B_images/alien6.jpeg" data-name="Alien 06 — TODO name">
+                <img src="blender/B_images/alien6.png" alt="Alien creature design 6 from the biome collection — click to view full size" loading="lazy">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox for alien thumbnails -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close image">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
 
   <!-- ═══ 3D MODELING PROJECTS ═══ -->
   <section id="projects" class="page-section">
@@ -831,7 +1051,7 @@
       <p class="sec-desc">Bringing imagination to life through detailed 3D models and captivating animations.</p>
 
       <!-- Filter Tabs -->
-      <div class="filter-tabs" id="project-filters">
+      <div class="filter-tabs" id="project-filters" role="tablist" aria-label="Filter projects by category">
         <button class="filter-tab active" data-filter="all">All</button>
         <button class="filter-tab" data-filter="3d-art">3D Art</button>
         <button class="filter-tab" data-filter="animation">Animation</button>
@@ -859,7 +1079,7 @@
                 <span class="tag">Blender</span><span class="tag">3D Modeling</span><span class="tag">Texturing</span>
               </div>
               <p>Detailed 3D recreation of India's Chandrayaan-3 lunar lander with accurate proportions and mission-inspired materials.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -869,8 +1089,6 @@
               <div class="swiper" data-swiper>
                 <div class="swiper-wrapper">
                   <div class="swiper-slide"><img src="blender/B_images/GenZRender1.png" alt="Astra character full-body front render — Gen Z styled 3D model with modern streetwear" loading="lazy"></div>
-                  <div class="swiper-slide"><img src="blender/B_images/GenZRender2.png" alt="Astra character three-quarter view showing clothing detail and PBR materials" loading="lazy"></div>
-                  <div class="swiper-slide"><img src="blender/B_images/GenZRender3.png" alt="Astra character close-up face and upper body render with soft studio lighting" loading="lazy"></div>
                 </div>
                 <div class="swiper-pagination"></div>
               </div>
@@ -881,7 +1099,75 @@
                 <span class="tag">Blender</span><span class="tag">Character</span><span class="tag">PBR</span>
               </div>
               <p>Semi-realistic 3D character inspired by Gen Z fashion. Features detailed clothing, expressive proportions, and physically-based rendering.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
+          </div>
+
+          <!-- Sora — stylized AI agent avatar, live on soraminds.com -->
+          <div class="card" data-category="character">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/Styalized Character_Render.png" alt="Sora character render — stylized AI agent avatar with clean topology" loading="lazy"></div>
+                  <div class="swiper-slide">
+                    <video controls preload="metadata" aria-label="Turntable and rig demo of the Sora character model">
+                      <source src="blender/B_videos/StylizedCharacterTurntable.mp4" type="video/mp4">
+                      <track kind="captions" label="English" srclang="en" src="">
+                    </video>
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Sora</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Stylized</span><span class="tag">Character</span>
+              </div>
+              <p>AI agent avatar modeled for SoraMinds' web platform — semi-realistic mid-poly build with custom facial shape keys for lip-sync and expression, optimized for real-time rendering.</p>
+              <span class="credit-tag"><span class="credit-dot"></span>Live on soraminds.com</span>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
+          </div>
+
+          <!-- Ecobot — AI shopping-assistant avatar, live on soraminds.com/ecoxmall -->
+          <div class="card" data-category="character">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/Food_Men_Render.png" alt="Ecobot character render — stylized AI shopping-assistant avatar with bright, friendly proportions" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Ecobot</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Character</span><span class="tag">Stylized</span>
+              </div>
+              <p>AI shopping-assistant avatar built for SoraMinds' EcoXMall product — stylized, approachable design with playful proportions to keep the assistant experience friendly rather than corporate.</p>
+              <span class="credit-tag"><span class="credit-dot"></span>Live on soraminds.com/ecoxmall</span>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
+            </div>
+          </div>
+
+          <!-- Pip — companion piece from the same avatar pipeline, not yet shipped -->
+          <div class="card" data-category="character">
+            <div class="card-media">
+              <div class="swiper" data-swiper>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="blender/B_images/Food_Girl_Render.png" alt="Pip character render — stylized companion avatar with playful proportions" loading="lazy"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3>Pip</h3>
+              <div class="tags">
+                <span class="tag">Blender</span><span class="tag">Character</span><span class="tag">Stylized</span>
+              </div>
+              <p>Companion character to Ecobot from the same SoraMinds agent-avatar pipeline — matching stylized aesthetic, built as an alternate/expansion design.</p>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -906,7 +1192,7 @@
                 <span class="tag">Blender</span><span class="tag">Environment</span><span class="tag">Lighting</span>
               </div>
               <p>Atmospheric horror environment with detailed props, eerie lighting setups, and carefully crafted mood to create unsettling tension.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -929,7 +1215,7 @@
                 <span class="tag">Blender</span><span class="tag">Sci-Fi</span><span class="tag">Emission</span>
               </div>
               <p>Futuristic spacecraft with glowing propulsion systems, detailed hull texturing, and sci-fi aesthetic for space exploration narratives.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -950,7 +1236,7 @@
                 <span class="tag">Blender</span><span class="tag">Stylized</span><span class="tag">Cartoon</span>
               </div>
               <p>Stylized cartoon vehicle with exaggerated proportions, vibrant colors, and playful design perfect for arcade-style racing games.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -970,7 +1256,7 @@
                 <span class="tag">Blender</span><span class="tag">Environment</span><span class="tag">Landscape</span>
               </div>
               <p>Mysterious rock formation in a sun-baked desert landscape, ideal for environment backgrounds and cinematic scenes.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -990,7 +1276,7 @@
                 <span class="tag">Blender</span><span class="tag">Character</span><span class="tag">Stylized</span>
               </div>
               <p>A stylized Halloween witch character perfect for spooky animations, seasonal projects, or fantasy game pipelines.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -1010,7 +1296,7 @@
                 <span class="tag">Blender</span><span class="tag">Halloween</span><span class="tag">Lighting</span>
               </div>
               <p>Festive Halloween pumpkin scene with glowing warm lights, moody atmosphere, and cinematic horror vibes.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -1030,7 +1316,7 @@
                 <span class="tag">Blender</span><span class="tag">Product</span><span class="tag">Vintage</span>
               </div>
               <p>Vintage-style clock model with meticulous material detailing, ideal for interior renders and time-themed projects.</p>
-              <a href="#" onclick="alert('Model not available for download yet.')" class="btn btn-outline btn-sm">Download Model</a>
+              <a href="#" onclick="alert('Model not available for download yet.'); return false;" class="btn btn-outline btn-sm">Download Model</a>
             </div>
           </div>
 
@@ -1097,7 +1383,7 @@
               <span class="tag">Unity</span><span class="tag">C#</span><span class="tag">NavMesh AI</span><span class="tag">FPS</span>
             </div>
             <p>First-person zombie survival with intelligent NavMesh AI enemies, dynamic health systems, and immersive combat in a post-apocalyptic world.</p>
-            <a href="https://github.com/Code-buddddY/DeathNight-Zombies" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+            <a href="https://github.com/Code-buddddY/DeathNight-Zombies" target="_blank" rel="noopener" class="btn btn-gold btn-sm">View Source ↗</a>
           </div>
         </div>
 
@@ -1115,7 +1401,7 @@
               <span class="tag">Unity</span><span class="tag">Endless Runner</span><span class="tag">Quiz</span>
             </div>
             <p>Innovative endless runner blending obstacle avoidance with educational quiz mechanics and dynamic size-changing gameplay.</p>
-            <a href="https://github.com/Code-buddddY/Snowman-Runner" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+            <a href="https://github.com/Code-buddddY/Snowman-Runner" target="_blank" rel="noopener" class="btn btn-gold btn-sm">View Source ↗</a>
           </div>
         </div>
 
@@ -1133,7 +1419,7 @@
               <span class="tag">Unity</span><span class="tag">ARCore</span><span class="tag">Educational</span>
             </div>
             <p>Augmented reality solar system explorer with interactive 3D planetary models, touch controls, and educational content delivery.</p>
-            <a href="https://github.com/Code-buddddY" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+            <a href="https://github.com/Code-buddddY" target="_blank" rel="noopener" class="btn btn-gold btn-sm">View Source ↗</a>
           </div>
         </div>
 
@@ -1151,7 +1437,7 @@
               <span class="tag">Unity</span><span class="tag">Physics</span><span class="tag">3D Sports</span>
             </div>
             <p>Basketball simulation with realistic physics, variable difficulty, environmental wind effects, and precision-based scoring mechanics.</p>
-            <a href="https://github.com/Code-buddddY/Basket-Blast-3D" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+            <a href="https://github.com/Code-buddddY/Basket-Blast-3D" target="_blank" rel="noopener" class="btn btn-gold btn-sm">View Source ↗</a>
           </div>
         </div>
 
@@ -1169,7 +1455,7 @@
               <span class="tag">Unity</span><span class="tag">Photon PUN</span><span class="tag">Networking</span>
             </div>
             <p>Real-time multiplayer framework demo featuring room creation, matchmaking, and synchronized gameplay via Photon Unity Networking.</p>
-            <a href="https://github.com/Code-buddddY/Multiplayer_Unity_PUN_Demo" target="_blank" class="btn btn-gold btn-sm">View Source ↗</a>
+            <a href="https://github.com/Code-buddddY/Multiplayer_Unity_PUN_Demo" target="_blank" rel="noopener" class="btn btn-gold btn-sm">View Source ↗</a>
           </div>
         </div>
 
@@ -1183,9 +1469,35 @@
       <p class="sec-tag">// 03 — Experience</p>
       <h2 class="sec-title">Work History</h2>
       <div class="divider"></div>
-      <p class="sec-desc">Real-world studio experience shipping games and managing technical art pipelines.</p>
+      <p class="sec-desc">Real-world studio experience shipping games and managing technical art and animation pipelines.</p>
 
       <div class="exp-list">
+
+        <!-- Solano Games -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">2D Character Props Artist (Krita) &amp; Spine Animator</div>
+              <div class="exp-company">Solano Games · Remote</div>
+            </div>
+            <div class="exp-meta">
+              <span class="exp-date">June 2026 — Present</span>
+              <span class="exp-type">Internship</span>
+            </div>
+          </div>
+          <p class="exp-desc">
+            Working on the 2D character pipeline end to end — from prop art to rigged, animated characters — bridging Krita asset creation with Spine2D rigging and animation.
+          </p>
+          <ul class="exp-achievements">
+            <li><strong>Props &amp; Costume Art:</strong> Design and edit 2D character props, costumes, and accessories in Krita, preparing clean, rig-ready art for the Spine2D pipeline.</li>
+            <li><strong>Spine2D Rigging &amp; Animation:</strong> Rig and animate 2D characters in Spine2D, building skeletal animations for character movement, expressions, and in-game interactions.</li>
+            <li><strong>Consistency:</strong> Collaborate with the art and development team to keep prop art and animation style consistent across the character roster.</li>
+          </ul>
+          <div class="tags" style="margin-bottom:1rem;">
+            <span class="tag">Krita</span><span class="tag">Spine2D</span><span class="tag">2D Animation</span>
+            <span class="tag">Character Art</span><span class="tag">Rigging</span>
+          </div>
+        </div>
 
         <!-- SoraMinds -->
         <div class="exp-card">
@@ -1195,18 +1507,18 @@
               <div class="exp-company">SoraMinds LLC · Troy, MI, USA (Remote)</div>
             </div>
             <div class="exp-meta">
-              <span class="exp-date">Nov 2025 — May 2026</span>
+              <span class="exp-date">Nov 2025 — Jul 2026</span>
               <span class="exp-type">Contract</span>
             </div>
           </div>
           <p class="exp-desc">
-            Transitioned from standalone 3D modeling to managing the entire technical art pipeline between the design team and frontend developers. Applied a semi-realistic, mid-poly design approach for highly optimized web-based AI agents.
+            Transitioned from standalone 3D modeling to managing the entire technical art pipeline between the design team and frontend developers over a 9-month contract. Applied a semi-realistic, mid-poly design approach for highly optimized web-based AI agents.
           </p>
           <ul class="exp-achievements">
             <li><strong>Web Optimization:</strong> Managed strict draw-call budgets and minimized GLB file sizes for seamless frontend rendering. Executed advanced texture channel-packing (OMR: Occlusion, Metallic, Roughness) to reduce memory bandwidth.</li>
             <li><strong>Rigging & Animation Pipeline:</strong> Led technical rigging and precision weight painting for character assets. Engineered facial shape keys — eye blinks and complex visemes for lip-sync — and streamlined animation workflows via NLA editor dropdown selections.</li>
             <li><strong>Cross-Team Bridge:</strong> Acted as the primary technical liaison between the 3D art team and frontend developers to troubleshoot and prevent code-breaking mesh issues.</li>
-            <li><strong>Art Direction:</strong> Maintained a consistent semi-realistic mid-poly aesthetic across all character assets, balancing visual quality with real-time web performance constraints.</li>
+            <li><strong>Art Direction:</strong> Maintained a consistent semi-realistic mid-poly aesthetic across all character assets, balancing visual quality with real-time web performance constraints. Two of these avatars — Sora and Ecobot — are now live in production on SoraMinds' platform (soraminds.com and its EcoXMall product).</li>
           </ul>
           <div class="tags" style="margin-bottom:1rem;">
             <span class="tag">Blender</span><span class="tag">GLB/glTF</span><span class="tag">Shape Keys</span>
@@ -1262,7 +1574,7 @@
             I'm a passionate creator at the intersection of art and technology — specializing in 3D modeling, game development, and interactive experiences. With a keen eye for detail and a love for immersive storytelling, I craft digital worlds that resonate.
           </p>
           <p class="about-text">
-            From lunar landers in Blender to AR solar systems in Unity, I bring ideas to life across disciplines — blending technical rigor with artistic vision. My studio experience spans level design, technical art pipelines, and web-optimized 3D for AI agents.
+            From lunar landers in Blender to AR solar systems in Unity, I bring ideas to life across disciplines — blending technical rigor with artistic vision. My studio experience spans level design, technical art pipelines, and 2D character animation for web and mobile.
           </p>
 
           <!-- Software Stack -->
@@ -1270,6 +1582,7 @@
           <div class="software-strip">
             <span class="sw-badge"><span class="sw-dot"></span>Blender</span>
             <span class="sw-badge"><span class="sw-dot"></span>Unity</span>
+            <span class="sw-badge"><span class="sw-dot"></span>Spine2D</span>
             <span class="sw-badge"><span class="sw-dot"></span>Substance Painter</span>
             <span class="sw-badge"><span class="sw-dot"></span>Krita</span>
             <span class="sw-badge"><span class="sw-dot"></span>Canva</span>
@@ -1306,8 +1619,8 @@
           </div>
           <div class="skill-card">
             <div class="skill-icon">🖌️</div>
-            <h4>Digital Art</h4>
-            <p>Substance Painter, Krita, Canva</p>
+            <h4>2D Art &amp; Animation</h4>
+            <p>Krita, Spine2D Rigging &amp; Animation, Canva</p>
           </div>
           <div class="skill-card">
             <div class="skill-icon">🤖</div>
@@ -1356,6 +1669,8 @@
     </div>
   </section>
 
+  </main>
+
   <!-- ═══ FOOTER ═══ -->
   <footer>
     <p>© <span id="footer-year"></span> Tushar — Crafted with passion and precision.</p>
@@ -1368,8 +1683,11 @@
   <script>
   /* ─────────────────────────────────────────
      THREE.JS BACKGROUND — Particle field
+     (skipped entirely if the user prefers reduced motion)
   ───────────────────────────────────────── */
-  (function () {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReducedMotion) (function () {
     const canvas = document.getElementById('canvas-bg');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
@@ -1436,8 +1754,31 @@
     });
 
     const mouse={x:0,y:0};
-    window.addEventListener('mousemove',e=>{ mouse.x=(e.clientX/innerWidth-.5)*2; mouse.y=-(e.clientY/innerHeight-.5)*2; });
+    window.addEventListener('mousemove',e=>{ mouse.x=(e.clientX/innerWidth-.5)*2; mouse.y=-(e.clientY/innerHeight-.5)*2; }, {passive:true});
     window.addEventListener('resize',()=>{ renderer.setSize(innerWidth,innerHeight); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); });
+
+    /* Swap particle colors + blend mode to match the active theme.
+       Dark mode: light gold/teal dots, additive blending — they glow against
+       a near-black page. Light mode: those same colors are too close to white
+       to register under additive blending on a pale background, so we switch
+       to deeper amber/teal and drop to normal blending, which actually paints
+       visible dots instead of "adding" barely-there light on top of light. */
+    function updateParticleTheme() {
+      const isLight = document.documentElement.classList.contains('light');
+      if (isLight) {
+        mat.uniforms.color1.value.set('#8a6a1f');
+        mat.uniforms.color2.value.set('#1f7d6c');
+        mat.blending = THREE.NormalBlending;
+      } else {
+        mat.uniforms.color1.value.set('#c8a96e');
+        mat.uniforms.color2.value.set('#4dd9c0');
+        mat.blending = THREE.AdditiveBlending;
+      }
+      mat.needsUpdate = true;
+    }
+    updateParticleTheme();
+    // Re-run whenever the theme toggle fires (see the THEME TOGGLE block below).
+    window.addEventListener('themechange', updateParticleTheme);
 
     function animate(t) {
       requestAnimationFrame(animate);
@@ -1451,25 +1792,88 @@
   })();
 
   /* ─────────────────────────────────────────
-     THREE.JS HERO — Wireframe torus knot
+     THREE.JS HERO — Orbiting crystal
   ───────────────────────────────────────── */
-  (function () {
+  if (!prefersReducedMotion) (function () {
     const canvas=document.getElementById('hero-gl');
     if(!canvas)return;
     const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
     renderer.setPixelRatio(Math.min(devicePixelRatio,2));
     const resize=()=>{ const{offsetWidth:w,offsetHeight:h}=canvas.parentElement; renderer.setSize(w,h); camera.aspect=w/h; camera.updateProjectionMatrix(); };
     const scene=new THREE.Scene();
-    const camera=new THREE.PerspectiveCamera(55,1,0.1,100); camera.position.z=5;
-    const geo=new THREE.TorusKnotGeometry(1.4,.42,180,24,2,3);
-    const mat=new THREE.MeshStandardMaterial({color:0x1a1030,emissive:0x7b72f8,emissiveIntensity:.45,wireframe:false,metalness:.6,roughness:.3});
-    const torus=new THREE.Mesh(geo,mat); scene.add(torus);
-    const wire=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0x4dd9c0,wireframe:true,transparent:true,opacity:.12})); scene.add(wire);
-    scene.add(new THREE.AmbientLight(0xffffff,.3));
-    const pl1=new THREE.PointLight(0xc8a96e,3,20); pl1.position.set(4,3,3); scene.add(pl1);
-    const pl2=new THREE.PointLight(0x4dd9c0,2.5,18); pl2.position.set(-4,-3,2); scene.add(pl2);
-    resize(); window.addEventListener('resize',resize);
-    function animate(t){ requestAnimationFrame(animate); const s=t*.001; torus.rotation.x=s*.35; torus.rotation.y=s*.55; wire.rotation.copy(torus.rotation); renderer.render(scene,camera); }
+    const camera=new THREE.PerspectiveCamera(55,1,0.1,100); camera.position.z=6.5;
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    // Faceted crystal core
+    const coreGeo = new THREE.IcosahedronGeometry(1.5, 1);
+    const coreMat = new THREE.MeshStandardMaterial({ color:0x1a1030, emissive:0x7b72f8, emissiveIntensity:.5, metalness:.65, roughness:.22, flatShading:true });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    group.add(core);
+
+    const wire = new THREE.Mesh(coreGeo, new THREE.MeshBasicMaterial({ color:0x4dd9c0, wireframe:true, transparent:true, opacity:.2 }));
+    wire.scale.setScalar(1.03);
+    group.add(wire);
+
+    // Two tilted orbital rings, Saturn-style
+    const ringGeo = new THREE.TorusGeometry(2.7, 0.018, 8, 128);
+    const ring1 = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color:0xc8a96e, transparent:true, opacity:.55 }));
+    ring1.rotation.x = Math.PI / 2.3;
+    group.add(ring1);
+
+    const ring2 = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color:0x4dd9c0, transparent:true, opacity:.35 }));
+    ring2.rotation.x = Math.PI / 2.3;
+    ring2.rotation.z = Math.PI / 3.2;
+    ring2.scale.setScalar(1.22);
+    group.add(ring2);
+
+    // Small orbiting shards that drift around the core independently of the ring tilt
+    const shardGeo = new THREE.OctahedronGeometry(0.16, 0);
+    const shards = [];
+    const SHARD_COUNT = 7;
+    for (let i = 0; i < SHARD_COUNT; i++) {
+      const shardMat = new THREE.MeshStandardMaterial({
+        color: i % 2 === 0 ? 0xc8a96e : 0x4dd9c0,
+        emissive: i % 2 === 0 ? 0xc8a96e : 0x4dd9c0,
+        emissiveIntensity: .35, metalness:.7, roughness:.3
+      });
+      const shard = new THREE.Mesh(shardGeo, shardMat);
+      shard.userData = {
+        angle: (i / SHARD_COUNT) * Math.PI * 2,
+        radius: 3.1 + Math.random()*0.35,
+        speed: 0.22 + Math.random()*0.18,
+        tilt: (Math.random()-0.5) * 0.9,
+        bob: Math.random()*Math.PI*2
+      };
+      group.add(shard);
+      shards.push(shard);
+    }
+
+    scene.add(new THREE.AmbientLight(0xffffff, .3));
+    const pl1 = new THREE.PointLight(0xc8a96e, 3, 20); pl1.position.set(4,3,3); scene.add(pl1);
+    const pl2 = new THREE.PointLight(0x4dd9c0, 2.5, 18); pl2.position.set(-4,-3,2); scene.add(pl2);
+
+    resize(); window.addEventListener('resize', resize);
+
+    function animate(t) {
+      requestAnimationFrame(animate);
+      const s = t * .001;
+      core.rotation.x = s * .28; core.rotation.y = s * .42;
+      wire.rotation.copy(core.rotation);
+      ring1.rotation.z = s * .18;
+      ring2.rotation.z = -s * .22 + Math.PI/3.2;
+      group.rotation.y = s * .12;
+
+      shards.forEach(sh => {
+        const { angle, radius, speed, tilt, bob } = sh.userData;
+        const a = angle + s * speed;
+        sh.position.set(Math.cos(a)*radius, Math.sin(a)*radius*tilt + Math.sin(s+bob)*0.15, Math.sin(a)*radius*0.4);
+        sh.rotation.x = s * .8; sh.rotation.y = s * .6;
+      });
+
+      renderer.render(scene, camera);
+    }
     animate(0);
   })();
 
@@ -1488,8 +1892,9 @@
 
   filterTabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      filterTabs.forEach(t => t.classList.remove('active'));
+      filterTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
       tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
       const filter = tab.dataset.filter;
 
       projectCards.forEach(card => {
@@ -1504,11 +1909,7 @@
         } else {
           card.style.opacity = '0';
           card.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            if (tab.dataset.filter !== 'all' && card.dataset.category !== tab.dataset.filter) {
-              card.style.display = 'none';
-            }
-          }, 300);
+          setTimeout(() => { card.style.display = 'none'; }, 300);
         }
       });
     });
@@ -1516,15 +1917,23 @@
 
   /* ─────────────────────────────────────────
      SCROLL — progress + header + card reveal
+     (rAF-throttled so scroll work never runs more than once per frame,
+     and the listener is passive so it can't block the browser's own
+     scroll handling — this is what keeps scrolling feeling smooth.)
   ───────────────────────────────────────── */
   const scrollBar = document.getElementById('scroll-bar');
   const header = document.getElementById('header');
+  let scrollTicking = false;
 
-  window.addEventListener('scroll', () => {
+  function updateScrollUI() {
     const pct = scrollY / (document.body.scrollHeight - innerHeight) * 100;
     scrollBar.style.width = pct + '%';
     header.classList.toggle('scrolled', scrollY > 60);
-  });
+    scrollTicking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!scrollTicking) { requestAnimationFrame(updateScrollUI); scrollTicking = true; }
+  }, { passive: true });
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
@@ -1542,9 +1951,13 @@
   ───────────────────────────────────────── */
   const ham = document.getElementById('ham');
   const nav = document.getElementById('nav');
-  ham.addEventListener('click', () => { ham.classList.toggle('open'); nav.classList.toggle('open'); });
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); nav.classList.remove('open'); }));
-  document.addEventListener('click', e => { if (!nav.contains(e.target) && !ham.contains(e.target)) { ham.classList.remove('open'); nav.classList.remove('open'); } });
+  ham.addEventListener('click', () => {
+    const open = ham.classList.toggle('open');
+    nav.classList.toggle('open');
+    ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); nav.classList.remove('open'); ham.setAttribute('aria-expanded','false'); }));
+  document.addEventListener('click', e => { if (!nav.contains(e.target) && !ham.contains(e.target)) { ham.classList.remove('open'); nav.classList.remove('open'); ham.setAttribute('aria-expanded','false'); } });
 
   /* ─────────────────────────────────────────
      SMOOTH SCROLL
@@ -1557,6 +1970,44 @@
   });
 
   /* ─────────────────────────────────────────
+     FLAGSHIP PROJECT — alien thumbnail lightbox
+  ───────────────────────────────────────── */
+  (function () {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeBtn = document.getElementById('lightbox-close');
+    if (!lightbox) return;
+
+    let lastFocused = null;
+
+    function openLightbox(src, name) {
+      lastFocused = document.activeElement;
+      lightboxImg.src = src;
+      lightboxImg.alt = name;
+      lightboxCaption.textContent = name;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      closeBtn.focus();
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    }
+
+    document.querySelectorAll('.alien-thumb').forEach(btn => {
+      btn.addEventListener('click', () => openLightbox(btn.dataset.full, btn.dataset.name));
+    });
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox(); });
+  })();
+
+  /* ─────────────────────────────────────────
      CUSTOM CURSOR
   ───────────────────────────────────────── */
   (function(){
@@ -1565,14 +2016,14 @@
     const ring=document.getElementById('cursor-ring');
     const body=document.body;
     let mx=-200,my=-200,rx=-200,ry=-200,lastTrail=0;
-    const HOVER='a,button,.btn,.card,.skill-card,.contact-card,.ham,.nav-link,[onclick],.exp-card,.sw-badge,.filter-tab';
+    const HOVER='a,button,.btn,.card,.skill-card,.contact-card,.ham,.nav-link,[onclick],.exp-card,.sw-badge,.filter-tab,.alien-thumb';
 
     window.addEventListener('mousemove',e=>{
       mx=e.clientX; my=e.clientY;
       dot.style.left=mx+'px'; dot.style.top=my+'px';
       const now=performance.now();
       if(now-lastTrail>38){lastTrail=now;spawnTrail(mx,my);}
-    });
+    }, {passive:true});
 
     (function tick(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(tick); })();
 
@@ -1603,19 +2054,43 @@
   document.getElementById('footer-year').textContent = new Date().getFullYear();
 
   /* ─────────────────────────────────────────
+     IMAGE FADE-IN
+     Fades each image in once it's actually decoded, instead of letting it
+     pop onto the page abruptly (noticeably smoother on slower connections).
+  ───────────────────────────────────────── */
+  (function () {
+    document.querySelectorAll('img[loading="lazy"], .card-body img, .card-media img').forEach(img => {
+      img.style.transition = 'opacity .45s ease';
+      if (!img.complete) {
+        img.style.opacity = '0';
+        img.addEventListener('load', () => { img.style.opacity = '1'; }, { once: true });
+      }
+    });
+  })();
+
+  /* ─────────────────────────────────────────
      THEME TOGGLE
+     The actual class toggle happened instantly in the inline anti-flash
+     script in <head> (see the top of the file), so by the time this runs
+     the page is already showing the right theme. This block just wires up
+     the button: it keeps aria-pressed in sync for screen readers and tells
+     the rest of the page a theme change happened via a 'themechange' event,
+     so anything theme-dependent (right now: the particle field) can update
+     itself without needing to know about the toggle button directly.
   ───────────────────────────────────────── */
   (function() {
     const btn  = document.getElementById('theme-toggle');
     const html = document.documentElement;
 
-    // Restore saved preference
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') html.classList.add('light');
+    // Reflect whatever the anti-flash script already applied.
+    btn.setAttribute('aria-pressed', html.classList.contains('light') ? 'true' : 'false');
 
     btn.addEventListener('click', () => {
       const isLight = html.classList.toggle('light');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      try { localStorage.setItem('theme', isLight ? 'light' : 'dark'); }
+      catch (e) { /* localStorage unavailable — theme just won't persist */ }
+      btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+      window.dispatchEvent(new CustomEvent('themechange', { detail: { light: isLight } }));
     });
   })();
   </script>
